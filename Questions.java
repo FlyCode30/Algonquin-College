@@ -1,0 +1,43 @@
+package testApp;
+// this class is used to store questions and answers. It implements QA_Pair
+
+public abstract class Questions {
+	
+	protected String courseInfo;
+	protected String body;
+
+	// this constructor is the template for the questions
+	public Questions (String courseInfo, String body) {
+		this.courseInfo = courseInfo;
+		this.body = body;
+	}
+	
+	// this method is used to get the course information
+	public String getCourseInfo() {
+		return courseInfo;
+	}
+
+	// this method is used to set the course information
+	public void setCourseInfo(String courseInfo) {
+		this.courseInfo = courseInfo;
+	}
+
+	// this method is used to get the question body
+	public String getBody() {
+		return body;
+	}
+
+	// this method is used to set the question body
+	public void setBody(String body) {
+		this.body = body;
+	}
+	
+	/**
+	 * this method returns a string for each question. Seeing as how it is only the body of the question, it may be useful to use this method to display the question in the GUI
+	 * the <?> was me testing using an identifier for the question to help with the reader, but this may be beyond the scope of the project, so we may have to remove it
+	 */
+	public String toString() {
+		return body + "<?>" + "\n";
+	}
+	
+}
