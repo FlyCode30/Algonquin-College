@@ -1,4 +1,4 @@
-package testApp;
+package models;
 
 public class TorFQuestion extends Questions{
 	
@@ -8,9 +8,9 @@ public class TorFQuestion extends Questions{
 	protected Boolean answerB;
 	
 	// this is the constructor for the TorFQuestions class. It adds on options B to the questions
-	public TorFQuestion(String courseInfo, String body, String optionA, Boolean answerA, String optionB,
+	public TorFQuestion(String courseInfo, String type, String body, String optionA, Boolean answerA, String optionB,
 			Boolean answerB) {
-		super(courseInfo, body);
+		super(courseInfo, type, body);
 		this.answerA = answerA;
 		this.answerB = answerB;
 	}
@@ -68,7 +68,7 @@ public class TorFQuestion extends Questions{
 		
 	
 	public String toString() {
-		return "Q: " + super.toString() + "   A: " + getAnswer();
+		return super.toString() + "   A: True" + "   B: False" + "\n";
 	}
 	
 }

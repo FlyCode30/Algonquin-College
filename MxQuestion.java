@@ -1,4 +1,4 @@
-package testApp;
+package models;
 
 public class MxQuestion extends Questions {
 	
@@ -25,9 +25,9 @@ public class MxQuestion extends Questions {
 	 * @param optionD
 	 * @param answerD
 	 */
-	public MxQuestion(String courseInfo, String body, String optionA, Boolean answerA, String optionB,
+	public MxQuestion(String courseInfo, String type, String body, String optionA, Boolean answerA, String optionB,
 			Boolean answerB, String optionC, Boolean answerC, String optionD, Boolean answerD) {
-		super(courseInfo, body);
+		super(courseInfo, type, body);
 		this.optionA = optionA;
 		this.answerA = answerA;
 		this.optionB = optionB;
@@ -122,7 +122,7 @@ public class MxQuestion extends Questions {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "   A) " + getOptionA() + "\n" + "   B) " + getOptionB() + "\n" + "   C) " + getOptionC() + "\n" + "   B) " + getOptionD() + "\n" + "The correct answer is: " + getCorrectAnswer();
+		return super.toString() + "   A) " + getOptionA() + "\n" + "   B) " + getOptionB() + "\n" + "   C) " + getOptionC() + "\n" + "   B) " + getOptionD() + "\n";
 	}
 	
 	

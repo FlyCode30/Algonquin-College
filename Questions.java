@@ -1,14 +1,16 @@
-package testApp;
-// this class is used to store questions and answers. It implements QA_Pair
+package models;
+
 
 public abstract class Questions {
 	
 	protected String courseInfo;
+	protected String type;
 	protected String body;
 
 	// this constructor is the template for the questions
-	public Questions (String courseInfo, String body) {
+	public Questions (String courseInfo, String type, String body) {
 		this.courseInfo = courseInfo;
+		this.type = type;
 		this.body = body;
 	}
 	
@@ -22,6 +24,14 @@ public abstract class Questions {
 		this.courseInfo = courseInfo;
 	}
 
+	public String getType() {
+		return type;
+	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
 	// this method is used to get the question body
 	public String getBody() {
 		return body;
@@ -37,7 +47,7 @@ public abstract class Questions {
 	 * the <?> was me testing using an identifier for the question to help with the reader, but this may be beyond the scope of the project, so we may have to remove it
 	 */
 	public String toString() {
-		return body + "<?>" + "\n";
+		return "\n" + courseInfo + " - " + type + "\n" + body + "\n";
 	}
 	
 }

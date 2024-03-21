@@ -1,4 +1,4 @@
-package testApp;
+package models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,10 +70,10 @@ public class TableListCourseInfo {
 	public void remove(int index) {
 		courseList.remove(index);
 	}
-	
-
 }
 
+//}
+//
 //// gets the string representation of courseName of an object in the courseList
 //public String getCourseName(int index) {
 //	return courseList.get(index).getCourseName();

@@ -1,4 +1,4 @@
-package testApp;
+package models;
 
 public class FillQuestion extends Questions{
 
@@ -10,9 +10,9 @@ public class FillQuestion extends Questions{
 	
 	
 	// this is the constructor for the FillQuestions class. it consists of answers A, B, C, and D but no options
-	public FillQuestion(String courseInfo, String body, String optionA, String optionB, String optionC,
+	public FillQuestion(String courseInfo, String type, String body, String optionA, String optionB, String optionC,
 			String optionD) {
-		super(courseInfo, body);
+		super(courseInfo, type, body);
 		this.optionA = optionA;
 		this.optionB = optionB;
 		this.optionC = optionC;

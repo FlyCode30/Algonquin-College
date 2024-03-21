@@ -1,4 +1,4 @@
-package testApp;
+package models;
 
 public class ShortQuestion extends Questions{
 
@@ -6,13 +6,21 @@ public class ShortQuestion extends Questions{
 	protected String optionA;
 	
 	// this is the constructor for the ShortQuestions class. It consists of answer A but no options
-	public ShortQuestion(String courseInfo, String body, String optionA) {
-		super(courseInfo, body);
+	public ShortQuestion(String courseInfo, String type, String body, String optionA) {
+		super(courseInfo, type, body);
 		this.optionA = optionA;
 	}
 	
 	// this method is used to get answer A
 	public String getAnswerA() {
+		return optionA;
+	}
+	
+	public String getOptionA() {
+		return optionA;
+	}
+	
+	public String setOptionA() {
 		return optionA;
 	}
 	
@@ -23,7 +31,7 @@ public class ShortQuestion extends Questions{
 	
 	// this method is used to return a string representation of the object
 	public String toString() {
-		return super.toString() + "   Answer: ";
+		return super.toString() + "   Answer: " + getOptionA() + "<?>";
 	}
 	
 }

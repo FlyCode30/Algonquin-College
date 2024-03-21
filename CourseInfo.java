@@ -1,4 +1,4 @@
-package testApp;
+package models;
 
 public class CourseInfo {
 

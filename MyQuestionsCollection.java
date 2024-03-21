@@ -1,4 +1,4 @@
-package testApp;
+package models;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -39,6 +39,10 @@ public class MyQuestionsCollection {
 	
 	public void setQuestion(int index, Questions question) {
 		questionsList.set(index, question);
+	}
+	
+	public boolean contains(Questions question) {
+		return questionsList.contains(question);
 	}
 
 }

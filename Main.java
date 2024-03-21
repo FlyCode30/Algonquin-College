@@ -7,7 +7,7 @@
  */
 
 
-package javaFxControllers;
+package controllers;
 
 import java.io.IOException;
 
@@ -18,9 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import testApp.MyQuestionsCollection;
-import testApp.Questions;
-import testApp.TableListCourseInfo;
+import models.MyQuestionsCollection;
+import models.TableListCourseInfo;
 
 
 
