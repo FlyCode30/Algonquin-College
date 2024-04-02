@@ -2,7 +2,6 @@ package models;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import java.util.List;
 
 
 // this class will be used to create a table of course information in the courseList.fxml file
@@ -27,7 +26,7 @@ public class TableListCourseInfo {
 	 */
 	public void setDefault() {
 		if (courseList.isEmpty()) {
-            courseList.add(new CourseInfo("General", 0, "A", "General"));
+            courseList.add(new CourseInfo("General", "NA", "A", "General"));
 		}
 	}
 	

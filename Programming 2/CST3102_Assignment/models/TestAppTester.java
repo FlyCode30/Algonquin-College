@@ -8,7 +8,7 @@ public class TestAppTester {
 		MyQuestionsCollection myQuestions = new MyQuestionsCollection();
 
 		// create a new CourseInfo object
-		CourseInfo courseInfo = new CourseInfo("Computer Science", 2018, "Fall", "CSC 102");
+		CourseInfo courseInfo = new CourseInfo("Computer Science", "2018", "Fall", "CSC 102");
 
 		// create a new FillQuestion object
 		FillQuestion fillQuestion = new FillQuestion(courseInfo.toString(), "Fill", "What is the capital of Canada?", "Ottawa",

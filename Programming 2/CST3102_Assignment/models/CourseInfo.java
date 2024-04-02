@@ -3,11 +3,11 @@ package models;
 public class CourseInfo {
 
 	protected String programName;
-	protected Integer programYear;
+	protected String programYear;
 	protected String semester;
 	protected String courseName;
 	
-	public CourseInfo(String programName, Integer programYear, String semester, String courseName) {
+	public CourseInfo(String programName, String programYear, String semester, String courseName) {
 		this.programName = programName;
 		this.programYear = programYear;
 		this.semester = semester;
@@ -18,7 +18,7 @@ public class CourseInfo {
 		return programName;
 	}
 	
-	public Integer getProgramYear() {
+	public String getProgramYear() {
 		return programYear;
 	}
 	
@@ -34,7 +34,7 @@ public class CourseInfo {
 		this.programName = programName;
 	}
 	
-	public void setProgramYear(Integer programYear) {
+	public void setProgramYear(String programYear) {
 		this.programYear = programYear;
 	}
 	
