@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -58,7 +56,7 @@ public class AddQuestionController {
 	
 	
 	public void start (Stage stage) throws Exception{
-        Main.loader("addQuestion.fxml");
+        Main.loader("questionPage.fxml");
 	}
 	
 	public void returnToQuestionList(ActionEvent event) {
@@ -116,6 +114,7 @@ public class AddQuestionController {
 	 * Until then, this probably has to stay
 	 * 
 	 */
+	@FXML
 	public void initialize() {
 		courseList.setItems(getCourseInfo());
 		questionType.setItems(FXCollections.observableArrayList("MC", "T/F", "Fill", "Short"));
@@ -137,10 +136,13 @@ public class AddQuestionController {
 				optionD.setEditable(true);
 				answerD.setDisable(false);
 			} else if (newValue.equals("T/F")) {
-				optionA.setFont(Font.font("True", FontWeight.BOLD , 20));
+				optionA.setFont(Font.font("System", FontWeight.BOLD , 20));
+				optionA.setText("True");
+				optionA.setDisable(false);
 				optionA.setEditable(false);
 				answerA.setDisable(false);
-				optionB.setFont(Font.font("False", FontWeight.BOLD , 20));
+				optionB.setFont(Font.font("System", FontWeight.BOLD , 20));
+				optionB.setText("False");
 				optionB.setEditable(false);
 				optionB.setDisable(false);
 				answerB.setDisable(false);
@@ -214,7 +216,7 @@ public class AddQuestionController {
 		String course = questions.getCourseInfo();
 		
 	    String fileName = course + "_Q-" +timestamp + ".txt";
-	    String filePath = "C:\\Users\\mikes\\Documents\\ProAssQuestions\\" + fileName;
+	    String filePath = "E:\\My ToolBox\\7 Projects\\Learning\\Resources & Notes\\Algonquin B.Tech\\AC B.Tech 2023\\Semester 2\\Programming\\Assignments\\AssignmentQuestions\\" + fileName;
 		    
 	    Task<Void> task = new Task<Void>() {
 	        @Override

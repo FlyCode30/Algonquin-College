@@ -1,23 +1,30 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.MyQuestionsCollection;
 import models.Questions;
 import models.Reader;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -59,19 +66,36 @@ public class QuestionListController {
 	}
 	
 	/**
-	 * This method will load the questionList.fxml
-	 */
-	@FXML
-	public void addQuestion(ActionEvent event) throws IOException {
-		Main.loader("questionPage.fxml");
-	}
-	
-	/**
 	 * This method will load the addCourse.fxml
 	 */
 	@FXML
 	public void addCourse(ActionEvent event) throws IOException {
 		Main.loader("addCourse.fxml");
+	}
+	
+	@FXML
+	private void addQuestion(ActionEvent event) throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation Dialog");
+		alert.setHeaderText("What would you like to do?");
+		alert.setContentText("Are you ok with this?");
+		
+		// create the buttons
+		ButtonType writeQuestion = new ButtonType("Write my own");
+		ButtonType upLoadQuestion = new ButtonType("Upload a file");
+		ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		
+		alert.getButtonTypes().setAll(writeQuestion, upLoadQuestion, cancel);
+		
+		// 4 different ways to handle the result
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == writeQuestion) {
+		    Main.loader("questionPage.fxml");
+		} else  if (result.get() == upLoadQuestion) {
+			FileChooser fileChooser = new FileChooser();
+			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+			File selectedFile = fileChooser.showOpenDialog(null);
+        } 
 	}
 	
 	/**
@@ -131,4 +155,6 @@ public class QuestionListController {
 		// program name column
 		questionColumn.setCellValueFactory(new PropertyValueFactory<>("body"));
 	}
+	
+	
 }
