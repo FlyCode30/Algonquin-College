@@ -21,7 +21,9 @@ import javafx.stage.Stage;
 import models.MyQuestionsCollection;
 import models.TableListCourseInfo;
 
-
+/**
+ * This is the main controller class for the application
+ */
 
 public class Main extends javafx.application.Application{
 	
@@ -38,6 +40,11 @@ public class Main extends javafx.application.Application{
 	private static final TableListCourseInfo courseList = new TableListCourseInfo();
 	private static final MyQuestionsCollection myQuestions = new MyQuestionsCollection();
 	
+	/**
+	 * This is the start method for the application. It loads the main fxml file. 
+	 * @param stage for the main.fxml file
+	 */
+	@Override
 	public void start(Stage stage) {
 	    try {
 			primaryStage = stage;
@@ -50,10 +57,20 @@ public class Main extends javafx.application.Application{
 		}
 	}
 	
+	/**
+	 * This method will return the list of course objects. 
+	 * 
+	 * @return courseList
+	 */
 	public static TableListCourseInfo getCourseList() {
 		return courseList;
 	}
 	
+	/**
+	 * This method will return the list of question objects.
+	 * 
+	 * @return myQuestions
+	 */
 	public static MyQuestionsCollection getMyQuestions() {
 		return myQuestions;
 	}

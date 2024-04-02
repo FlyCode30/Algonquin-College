@@ -24,52 +24,85 @@ import models.Questions;
 import models.ShortQuestion;
 import models.TorFQuestion;
 
-public class AddQuestionController {
+/**
+ * This controller class allows users to add questions to the Question List.
+ */
 
+public class AddQuestionController {
+	
+	// FXML variables for the questionPage.fxml file
+	
+	/** Button to add a question */
 	@FXML
 	private Button addQuestionButton;
+	/** Button to return to the question list */
 	@FXML
 	private Button returnToQuestionList;
+	/** ComboBox for selecting the course */
 	@FXML
 	private ComboBox<String> courseList;
+	/** ComboBox for selecting the question type */
 	@FXML
 	private ComboBox<String> questionType;
+	/** Text field for entering the question */
 	@FXML
 	private TextField question;
+	/** Text field for entering option A */
 	@FXML
 	private TextField optionA;
+	/** Text field for entering option B */
 	@FXML
 	private TextField optionB;
+	/** Text field for entering option C */	
 	@FXML
 	private TextField optionC;
+	/** Text field for entering option D */	
 	@FXML
 	private TextField optionD;
+	/** CheckBox for selecting answer A */
 	@FXML
 	private CheckBox answerA;
+	/** CheckBox for selecting answer B */
     @FXML
     private CheckBox answerB;
+    /** CheckBox for selecting answer C */
     @FXML
     private CheckBox answerC;
+    /** CheckBox for selecting answer D */
     @FXML
     private CheckBox answerD;
     
 	
-	
+	/**
+	 * Loads the Question List Page.
+	 * 
+	 * @param stage
+	 * @throws Exception
+	 */
 	public void start (Stage stage) throws Exception{
         Main.loader("questionPage.fxml");
 	}
 	
+	/**
+	 * This method will return to the question list page
+	 * 
+	 * @param event
+	 */
 	public void returnToQuestionList(ActionEvent event) {
 		Main.loader("questionList.fxml");
 	}
 	
 	/**
-	 * This method will add a question to the myQuestions object. Each question type has a different set of parameters, 
-	 * so this method will check the question type and add the appropriate question to the myQuestions object.
-	 * The initialize method was setup to limit input options to ensure that only the necessary information is input for the type of question being added.
+	 * This method will add a question to the myQuestions object based on the question type selected.
+	 * It will also write the question to a file using the writeToFile method, and then return the user to the 
+	 * question list page.
 	 * 
 	 * @param event
 	 * @throws IOException
+	 */
+	
+	/* Notes for future improvements: A choice dialog box or separate button would be included so that a user could 
+	 * add a new question and stay on the same page, or add a new question and return to the question list page.
 	 */
 	@FXML
 	public void addQuestion(ActionEvent event) throws IOException {
@@ -105,14 +138,17 @@ public class AddQuestionController {
 	
 	
 	/**
-	 * This method will initialize the courseList ComboBox with the list of programs as well as the questionType ComboBox with the list of question types
+	 * Initializes the Add Question Page by setting the items for the courseList and questionType ComboBoxes.
+	 * Also initializes the settings for the interface based on the question type selected.
 	 * 
-	 * This method allows users to select what type of question they want to add, and then changes the options and answers accordingly. This is done as a means to insure that 
-	 * users only input the necessary information for the type of question they are adding, thereby reducing the chance of errors.
+	 */
+	
+	/*
+	 * Notes for future improvements: Currently, this method adjusts the interface by adjusting each individual element.
+	 * These adjustments would be put into css file and the method would call a style sheet to adjust the interface.
 	 * 
-	 * Yes, this is very long. Ideally we would put all this code into a css file, and then simply reference the css file in the fxml file.
-	 * Until then, this probably has to stay
-	 * 
+	 * Also, there are no try-catch blocks for the file writing method. This would be added to the writeToFile method
+	 * to check for fields left blank or other errors. It would prompt the user to enter the missing information. 
 	 */
 	@FXML
 	public void initialize() {
@@ -185,10 +221,10 @@ public class AddQuestionController {
 	}
 	
 	/**
-	 * This method will return the list of programs from the courseList objects
-	 * 
+	 * This method will return the list of programs from the courseList objects.
 	 * @return
 	 */
+	
 	public ObservableList<String> getCourseInfo() {
 		ObservableList<String> courses = FXCollections.observableArrayList();
 		ObservableList<CourseInfo> courseList = Main.getCourseList().getCourseInfo();
@@ -203,9 +239,17 @@ public class AddQuestionController {
 
 
 	/**
-	 * This method will write the question to a file
+	 * This method is called by the addQuestion method to write the question to a file.
+	 * It uses the course name to indicate the course the question is associated with, and a timestamp
+	 * to create a unique ID for the file name
 	 * 
-	 * @param content
+	 * @param this method takes a type of question object as a parameter.
+	 */
+	
+	/* 
+	 * Notes for future improvements: We would find a way to change the unique ID to a more user-friendly format, like 
+	 * Question1, Question2, etc. Or, we would use a directory chooser to allow the user to select the location to save
+	 * and name the file themselves. 
 	 */
 	public void writeToFile(Questions questions) {
 		

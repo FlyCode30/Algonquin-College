@@ -18,13 +18,17 @@ import models.TableListCourseInfo;
  */
 public class CourseListController {
 
-	/** FXML variables for the courseList.fxml file */
+	// FXML variables for the courseList.fxml file 
+	
+	/** Scene for the courseList.fxml file */
 	@FXML
 	private Scene scene;
 	/** Table view for displaying the list of courses */
 	@FXML
 	private TableView<CourseInfo> courseTable;
+	
 	// Columns for the table view 
+	
 	/** Column for course name */
 	@FXML
 	private TableColumn<CourseInfo, String> courseNameColumn = new TableColumn<>("Course Name");
@@ -38,11 +42,11 @@ public class CourseListController {
 	@FXML
 	private TableColumn<CourseInfo, String> programSemesterColumn = new TableColumn<>("Program Semester");
 	
-	/** TableListCourseInfo object for courseList */
+	/** TableListCourseInfo object used for the list of courses */
 	private TableListCourseInfo courseList;
 	
     /** 
-     * this method will load the courseList.fxml
+     * Loads the page for displaying the list of courses
      * @param stage for courseList.fxml
      */
 	@FXML
@@ -56,7 +60,7 @@ public class CourseListController {
 	}
 	
 	/**
-	 * this method will load the questionPage.fxml used to add a question
+	 * Loads the page for adding a question to the Question List.
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -67,7 +71,7 @@ public class CourseListController {
 	}
 	
 	/**
-	 * this method will load the questionList.fxml page
+	 * Loads the page for viewing the Question List.
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -78,7 +82,7 @@ public class CourseListController {
 	}
 	
 	/**
-	 * this method will load the scene for the addCourse.fxml page
+	 * This method will load the Add Course Page
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -89,7 +93,8 @@ public class CourseListController {
 	}
 	
 	/**
-	 * this method will initialize the courseList.fxml page
+	 * this method will initialize the Course List Page
+	 * A default course is added for new users. 
 	 * 
 	 * @param event
 	 * @throws IOException
@@ -110,7 +115,11 @@ public class CourseListController {
 		programYearColumn.setCellValueFactory(new PropertyValueFactory<>("programYear"));
 		// program semester column
 		programSemesterColumn.setCellValueFactory(new PropertyValueFactory<>("semester"));
-
 	}
+	
+	/* Notes for future implementation: We would also include additional code that would check for existing directories
+	 * and load them into the Course List here. We were not able to do that at this time. 
+	 * 
+	 */
 	
 }

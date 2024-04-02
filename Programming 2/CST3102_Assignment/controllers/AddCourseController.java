@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 import models.CourseInfo;
 
 /**
- * This controller class uses the addCourse.fxml file to add a course to the courseList
+ * This controller class allows the user to add a course to the Course List.
  */
 public class AddCourseController implements Initializable {
 	
@@ -68,7 +68,7 @@ public class AddCourseController implements Initializable {
 	}
 	
 	/*
-	 * this method will add a course to the courseList.fxml based on the inputs in text fields. 
+	 * This method will add a course to the courseList.fxml based on the inputs in text fields. 
 	 * The user will be prompted to select a directory to save the course files.
 	 * If the directory does not exist, it will be created.
 	 */
