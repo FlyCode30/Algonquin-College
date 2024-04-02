@@ -19,7 +19,6 @@ public class FillQuestion extends Questions{
 		this.optionD = optionD;
 	}
 
-	// this method is used to get option A
 	public String getOptionA() {
 		return optionA;
 	}
