@@ -1,13 +1,24 @@
 package models;
 
-
+/**
+ * This is the abstract class for the questions. It is the template for all the
+ * questions that will be created. The design philosophy is to have a template as the parent class that can be used as the item type
+ * when working with questions or list in the controller classes, but always the flexibility of different types of questions as child classes.
+ */
 public abstract class Questions {
 	
 	protected String courseInfo;
 	protected String type;
 	protected String body;
 
-	// this constructor is the template for the questions
+	/**
+	 * This constructor will create a new Questions object with the course
+	 * information, type, and body of the question. These parameters were choosen since all question types will have these base attributes. 
+	 * 
+	 * @param courseInfo
+	 * @param type
+	 * @param body
+	 */
 	public Questions (String courseInfo, String type, String body) {
 		this.courseInfo = courseInfo;
 		this.type = type;
@@ -42,10 +53,7 @@ public abstract class Questions {
 		this.body = body;
 	}
 	
-	/**
-	 * this method returns a string for each question. Seeing as how it is only the body of the question, it may be useful to use this method to display the question in the GUI
-	 * the <?> was me testing using an identifier for the question to help with the reader, but this may be beyond the scope of the project, so we may have to remove it
-	 */
+	/** this method returns a string for each question. */
 	public String toString() {
 		return "\n" + courseInfo + " - " + type + "\n" + body + "\n";
 	}

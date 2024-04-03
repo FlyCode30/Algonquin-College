@@ -10,11 +10,20 @@ public class TableListCourseInfo {
 
 	private ObservableList<CourseInfo> courseList;
 
+	/**
+	 * This constructor will create a new TableListCourseInfo object with an empty
+	 * courseList. It is called by the main controller class when the application is started.
+	 */
 	
 	public TableListCourseInfo() {
 		courseList = FXCollections.observableArrayList();
 	}
 	
+	/**
+	 * This method will return the courseList
+	 * 
+	 * @return courseList
+	 */
 	public ObservableList<CourseInfo> getCourseInfo() {
 		return courseList;
 	}
@@ -71,21 +80,3 @@ public class TableListCourseInfo {
 	}
 }
 
-//}
-//
-//// gets the string representation of courseName of an object in the courseList
-//public String getCourseName(int index) {
-//	return courseList.get(index).getCourseName();
-//}
-//
-//// gets the string representation of programName of an object in the courseList
-//public String getProgramName(int index) {
-//	return courseList.get(index).getProgramName();
-//}
-//
-//// gets the string representation of semester of an object in the courseList
-//public String getSemester(int index) {
-//	return courseList.get(index).getSemester();
-//}
-
-	

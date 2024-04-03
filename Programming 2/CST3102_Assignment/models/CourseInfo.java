@@ -1,12 +1,5 @@
 package models;
 
-/**
- * This class is used to create a CourseInfo object that will be used to store
- * the information for a course. The information includes the program name,
- * program year, semester, and course name. This class also has a toString
- * method that will return the program year, semester, and course name as a
- * string.
- */
 public class CourseInfo {
 
 	protected String programName;
@@ -14,15 +7,6 @@ public class CourseInfo {
 	protected String semester;
 	protected String courseName;
 	
-	/**
-	 * This constructor will create a CourseInfo object with the program name,
-	 * program year, semester, and course name.
-	 * 
-	 * @param programName
-	 * @param programYear
-	 * @param semester
-	 * @param courseName
-	 */
 	public CourseInfo(String programName, String programYear, String semester, String courseName) {
 		this.programName = programName;
 		this.programYear = programYear;
