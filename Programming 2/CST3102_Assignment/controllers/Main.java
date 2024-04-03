@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import models.MyQuestionsCollection;
+import models.Questions;
 import models.TableListCourseInfo;
 
 /**
@@ -38,7 +39,7 @@ public class Main extends javafx.application.Application{
 	@FXML
 	private Button quizPage;
 	private static final TableListCourseInfo courseList = new TableListCourseInfo();
-	private static final MyQuestionsCollection myQuestions = new MyQuestionsCollection();
+	private static final MyQuestionsCollection myQuestions = new MyQuestionsCollection(); 
 	
 	/**
 	 * This is the start method for the application. It loads the main fxml file. 
@@ -105,6 +106,23 @@ public class Main extends javafx.application.Application{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@FXML
+	public static void loaderWithQuestion(String fxml, Questions question)	{
+		try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
+            Parent root = loader.load();
+            // check if we're loading the ModifyQuestion screen
+            if ("modifyQuestion.fxml".equals(fxml)) {
+                ModifyQuestionController controller = loader.getController();
+                controller.setQuestion(question);
+            }
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 }

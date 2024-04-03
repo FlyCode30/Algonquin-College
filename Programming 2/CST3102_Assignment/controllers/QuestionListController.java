@@ -3,6 +3,7 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.MxQuestion;
 import models.MyQuestionsCollection;
 import models.Questions;
 import models.Reader;
@@ -11,6 +12,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -22,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonBar.ButtonData;
@@ -80,12 +84,13 @@ public class QuestionListController {
 	
 	/**
 	 * This method will load the page for adding a question. It give the user 2 options: write their own question or upload a file.
-	 * NOTE: The upload a file option is not yet implemented.
+	 * Currently, upload file works, but it will upload any question as a multiple choice question and make the entire the question
+	 * the body of the question. 
 	 */
 	
 	/*
-	 * Notes for further development: Add the ability to upload a file and add it as a question. While we can currently upload a file in
-	 * a text format, we are not able to convert that text into a question object at this time. 
+	 * Notes for further development: Change the upload feature so that it correctly inputs the file as a question object, with the 
+	 * options and answers going into the appropriate fields.  
 	 */
 	@FXML
 	private void addQuestion(ActionEvent event) throws IOException {
@@ -109,8 +114,24 @@ public class QuestionListController {
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 			File selectedFile = fileChooser.showOpenDialog(null);
-        } 
+     
+			StringBuilder textBuilder = new StringBuilder();
+		
+			try {
+				// reads each line from the file and append it to the StringBuilder
+				Files.lines(Paths.get(selectedFile.getAbsolutePath())).forEach(line -> textBuilder.append(line));
+				String text = textBuilder.toString();
+				MxQuestion newQuestion = new MxQuestion("General", "MC", text, null, false, null, false, null, false, null, false);
+				Main.getMyQuestions().addQuestion(newQuestion);
+			}
+			catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			
+			
+		}
 	}
+	
 	
 	/**
 	 * This method will load the courseList.fxml
@@ -168,7 +189,18 @@ public class QuestionListController {
 		typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 		// program name column
 		questionColumn.setCellValueFactory(new PropertyValueFactory<>("body"));
+		
+		questionList.setRowFactory(tv -> {
+			TableRow<Questions> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                   Questions rowData = row.getItem();
+                   Main.loaderWithQuestion("modifyQuestion.fxml", rowData);
+				}
+			});
+		return row;
+		});
 	}
-	
+
 	
 }
