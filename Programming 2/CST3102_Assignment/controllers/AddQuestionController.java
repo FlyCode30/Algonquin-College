@@ -93,7 +93,7 @@ public class AddQuestionController {
 	}
 	
 	/**
-	 * This method will add a question to the myQuestions object based on the question type selected.
+	 * This method will add a question to the myQuestions collection. 
 	 * It will also write the question to a file using the writeToFile method, and then return the user to the 
 	 * question list page.
 	 * 
@@ -101,8 +101,11 @@ public class AddQuestionController {
 	 * @throws IOException
 	 */
 	
-	/* Notes for future improvements: A choice dialog box or separate button would be included so that a user could 
+	/* Notes for future improvements: A choice dialog box or separate button could be included so that a user could 
 	 * add a new question and stay on the same page, or add a new question and return to the question list page.
+	 * 
+	 * Also, there are no try-catch blocks for the file writing method. This would be added to the writeToFile method
+	 * to check for fields left blank or other errors. It would prompt the user to enter the missing information. 
 	 */
 	@FXML
 	public void addQuestion(ActionEvent event) throws IOException {
@@ -140,15 +143,11 @@ public class AddQuestionController {
 	/**
 	 * Initializes the Add Question Page by setting the items for the courseList and questionType ComboBoxes.
 	 * Also initializes the settings for the interface based on the question type selected.
-	 * 
 	 */
 	
 	/*
 	 * Notes for future improvements: Currently, this method adjusts the interface by adjusting each individual element.
-	 * These adjustments would be put into css file and the method would call a style sheet to adjust the interface.
-	 * 
-	 * Also, there are no try-catch blocks for the file writing method. This would be added to the writeToFile method
-	 * to check for fields left blank or other errors. It would prompt the user to enter the missing information. 
+	 * Future improvements would put this into a css file and the method would call a style sheet to adjust the interface.
 	 */
 	@FXML
 	public void initialize() {
@@ -239,7 +238,7 @@ public class AddQuestionController {
 
 
 	/**
-	 * This method is called by the addQuestion method to write the question to a file.
+	 * This method writes a question to a text file. 
 	 * It uses the course name to indicate the course the question is associated with, and a timestamp
 	 * to create a unique ID for the file name
 	 * 
@@ -250,6 +249,9 @@ public class AddQuestionController {
 	 * Notes for future improvements: We would find a way to change the unique ID to a more user-friendly format, like 
 	 * Question1, Question2, etc. Or, we would use a directory chooser to allow the user to select the location to save
 	 * and name the file themselves. 
+	 * 
+	 * Also, we would save the file in an xml format to allow for easier reading and writing of the question,
+	 * or save the question in a database. 
 	 */
 	public void writeToFile(Questions questions) {
 		
@@ -278,5 +280,4 @@ public class AddQuestionController {
 	
 
 }
-
 

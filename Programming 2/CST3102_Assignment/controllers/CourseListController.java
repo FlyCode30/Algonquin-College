@@ -82,7 +82,7 @@ public class CourseListController {
 	}
 	
 	/**
-	 * This method will load the Add Course Page
+	 * Loads the page for adding a course to the Course List.
 	 * 
 	 * @param event
 	 * @throws IOException

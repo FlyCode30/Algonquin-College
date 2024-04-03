@@ -28,11 +28,16 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
- * This controller class uses the questionList.fxml file to display a list of
- * questions
+ * This controller class uses the questionList.fxml file to display a list of questions
  */
 public class QuestionListController {
-
+	
+	/**
+	 * This is the instnace of the MyQuestionsCollection this program uses. The collection is an observable list.
+	 * This was chosen to the flexibility of the observable list and the ability to update the list in real time.
+	 * The priority parameters needed for this collection was frequent insertions and deletions. Order was not a priority 
+	 * as the course info is part of the object and can be used to identify the type of question.  
+	 */
 	private MyQuestionsCollection myQuestions;
 	@FXML
 	private TableView<Questions> questionList;
@@ -66,13 +71,22 @@ public class QuestionListController {
 	}
 	
 	/**
-	 * This method will load the addCourse.fxml
+	 * This method will load the page for adding a course.
 	 */
 	@FXML
 	public void addCourse(ActionEvent event) throws IOException {
 		Main.loader("addCourse.fxml");
 	}
 	
+	/**
+	 * This method will load the page for adding a question. It give the user 2 options: write their own question or upload a file.
+	 * NOTE: The upload a file option is not yet implemented.
+	 */
+	
+	/*
+	 * Notes for further development: Add the ability to upload a file and add it as a question. While we can currently upload a file in
+	 * a text format, we are not able to convert that text into a question object at this time. 
+	 */
 	@FXML
 	private void addQuestion(ActionEvent event) throws IOException {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -133,8 +147,8 @@ public class QuestionListController {
 	    new Thread(task).start();
 	}
 	
-	/** Initialize the list of questions and courses (in case the user goes here first, instead of courseList.fxml)
-	 * 
+	/** Initialize the list of questions and courses. This is in case the user visits this page before the courseList page, 
+	 * the courses are still added.
 	 */
 	@FXML
 	public void initialize() {

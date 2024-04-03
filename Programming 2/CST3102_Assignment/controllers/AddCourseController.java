@@ -60,7 +60,7 @@ public class AddCourseController implements Initializable {
 	}
 
 	/*
-	 * this method will return to the courseList.fxml
+	 * this method will return the user to the course list page
      */
 	@FXML
 	public void returnToCourseList(ActionEvent event) throws IOException{
@@ -110,4 +110,3 @@ public class AddCourseController implements Initializable {
     }
 		
 }
-
