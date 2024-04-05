@@ -28,6 +28,16 @@ public class TableListCourseInfo {
 		return courseList;
 	}
 	
+	public boolean removeCourseByName(String courseName) {
+	    for (CourseInfo course : courseList) {
+	        if (course.getCourseName().equals(courseName)) {
+	            courseList.remove(course);
+	            return true; // Course removed successfully
+	        }
+	    }
+	    return false; // Course not found
+	}
+	
 	/**
 	 * This method will add a default course to the courseList if courseList is empty
 	 * 

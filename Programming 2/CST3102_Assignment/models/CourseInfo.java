@@ -13,15 +13,17 @@ public class CourseInfo {
 		this.semester = semester;
 		this.courseName = courseName;
 	}
-	
+	/** gets program name for CourseInfo */
 	public String getProgramName() {
 		return programName;
 	}
 	
+	/** gets program year for CourseInfo */
 	public String getProgramYear() {
 		return programYear;
 	}
 	
+	/** gets semester for CourseInfo */
 	public String getSemester() {
 		return semester;
 	}
