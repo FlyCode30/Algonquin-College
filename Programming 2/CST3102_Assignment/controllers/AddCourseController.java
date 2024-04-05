@@ -12,9 +12,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import models.CourseInfo;
@@ -40,9 +42,10 @@ public class AddCourseController implements Initializable {
 	private ComboBox<String> programYear;
 	/** Pre-made choices for program year. */
 	private String[] years = {"N/A", "1", "2", "3", "4", "5", "6", "7", "8"};
-	/** User Input for Semester. */
 	@FXML
-	private TextField semester;
+	private ComboBox<String> semester;
+	/** Pre-made choices for semester   */
+	private String[] semesterChoices = {"F", "W", "NA"};
 	/** Button to add course and return to courseList.fxml. */
 	@FXML
 	private Button addCourseButton;
@@ -59,15 +62,13 @@ public class AddCourseController implements Initializable {
 		}
 	}
 
-	/*
-	 * this method will return the user to the course list page
-     */
+	/** returns to course list */
 	@FXML
 	public void returnToCourseList(ActionEvent event) throws IOException{
        Main.loader("courseList.fxml");
 	}
 	
-	/*
+	/**
 	 * This method will add a course to the courseList.fxml based on the inputs in text fields. 
 	 * The user will be prompted to select a directory to save the course files.
 	 * If the directory does not exist, it will be created.
@@ -78,13 +79,15 @@ public class AddCourseController implements Initializable {
 		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		File selectedDirectory = directoryChooser.showDialog(null);
 		
+		// create course object and add course to courseList
 		if (selectedDirectory != null) {
-			CourseInfo course = new CourseInfo(programName.getText(), programYear.getValue(), semester.getText(), courseName.getText());
+			CourseInfo course = new CourseInfo(programName.getText(), programYear.getValue(), semester.getValue(), courseName.getText());
 			Main.getCourseList().addCourse(course);
 	
 			String folderName = course.toString();
 			String directoryPath = selectedDirectory + "\\" + folderName;
-		
+			
+			// checks to see if directory already exists. If it already exists, alert prompts user to change info
 			Path path = Paths.get(directoryPath);
 			if (!Files.exists(path)) {
 				try {
@@ -92,21 +95,24 @@ public class AddCourseController implements Initializable {
 					System.out.println("Directory created: " + path);
 				} catch (IOException e) {
 	                System.err.println("Failed to create directory!" + e.getMessage());
-	            }
+	            } returnToCourseList(event);
 			} else {
-				System.out.println("Directory already exists");
-		}
-			returnToCourseList(event);
+				Alert alert = new Alert(AlertType.INFORMATION);
+		    	alert.setTitle("Alert Notification");
+		    	// change the alignment of the header text
+		    	alert.setHeaderText("Warning");
+		    	alert.setContentText("This directory already exists. Please change the course name");
+
+		    	alert.showAndWait();
+			}
 		}
 	}
-
-	/*
-	 * this method will initialize the programYear ComboBox with the pre-made
-	 * choices
-	 */
+	
+	/** initializes the scene. Populates program year and semester with premade choices */
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		programYear.getItems().addAll(years);
+		semester.getItems().addAll(semesterChoices);
     }
 		
 }

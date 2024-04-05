@@ -3,10 +3,12 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import models.CourseInfo;
 import models.MxQuestion;
 import models.MyQuestionsCollection;
 import models.Questions;
 import models.Reader;
+import models.TableListCourseInfo;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -60,6 +62,8 @@ public class QuestionListController {
 	@FXML
 	private Button addQuestion;
 	@FXML
+	private Button removeQuestion;
+	@FXML
 	private Button addCourse;
 	@FXML
 	private Button refresh;
@@ -94,44 +98,28 @@ public class QuestionListController {
 	 */
 	@FXML
 	private void addQuestion(ActionEvent event) throws IOException {
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("What would you like to do?");
-		alert.setContentText("Are you ok with this?");
-		
-		// create the buttons
-		ButtonType writeQuestion = new ButtonType("Write my own");
-		ButtonType upLoadQuestion = new ButtonType("Upload a file");
-		ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-		
-		alert.getButtonTypes().setAll(writeQuestion, upLoadQuestion, cancel);
-		
-		// 4 different ways to handle the result
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == writeQuestion) {
-		    Main.loader("questionPage.fxml");
-		} else  if (result.get() == upLoadQuestion) {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-			File selectedFile = fileChooser.showOpenDialog(null);
-     
-			StringBuilder textBuilder = new StringBuilder();
-		
-			try {
-				// reads each line from the file and append it to the StringBuilder
-				Files.lines(Paths.get(selectedFile.getAbsolutePath())).forEach(line -> textBuilder.append(line));
-				String text = textBuilder.toString();
-				MxQuestion newQuestion = new MxQuestion("General", "MC", text, null, false, null, false, null, false, null, false);
-				Main.getMyQuestions().addQuestion(newQuestion);
-			}
-			catch (IOException e) {
-	            e.printStackTrace();
-	        }
-			
-			
-		}
+		Main.addQuestion("questionPage.fxml");
 	}
 	
+	@FXML
+	private void removeQuestion(ActionEvent event) throws IOException {
+		MyQuestionsCollection courseList = Main.getMyQuestions();
+		
+		// Get the selected course from the table view
+		Questions selectedQuestion = questionList.getSelectionModel().getSelectedItem();
+		
+		if (selectedQuestion != null) {
+			courseList.removeQuestion(selectedQuestion);
+			courseList.getQuestions().remove(selectedQuestion);
+		} else {
+			// Error messsage in case you can't remove course
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText("Please select a course to remove.");
+			alert.showAndWait();
+		}
+	}
 	
 	/**
 	 * This method will load the courseList.fxml

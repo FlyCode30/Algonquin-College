@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -46,7 +47,7 @@ public class AddQuestionController {
 	private ComboBox<String> questionType;
 	/** Text field for entering the question */
 	@FXML
-	private TextField question;
+	private TextArea question;
 	/** Text field for entering option A */
 	@FXML
 	private TextField optionA;

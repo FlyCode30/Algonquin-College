@@ -51,7 +51,7 @@
             <Font size="16.0" />
          </font>
       </Button>
-      <Button id="removeQuestion" mnemonicParsing="false" text="Remove Question" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+      <Button id="removeQuestion" fx:id="removeQuestion" mnemonicParsing="false" onAction="#removeQuestion" text="Remove Question" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="30.0" />
          </GridPane.margin>

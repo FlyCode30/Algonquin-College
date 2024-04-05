@@ -5,6 +5,9 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,6 +27,10 @@ public class CourseListController {
 	@FXML
 	private Scene scene;
 	/** Table view for displaying the list of courses */
+	@FXML
+	private Button addQuestion;
+	@FXML
+	private Button removeQuestion;
 	@FXML
 	private TableView<CourseInfo> courseTable;
 	
@@ -67,7 +74,7 @@ public class CourseListController {
 	 */
 	@FXML
 	public void addQuestion(ActionEvent event) throws IOException {
-		Main.loader("questionPage.fxml");
+		Main.addQuestion("questionPage.fxml");
 	}
 	
 	/**
@@ -91,7 +98,8 @@ public class CourseListController {
 	public void goToAddCoursePage(ActionEvent event) throws IOException {
 		Main.loader("addCourse.fxml");
 	}
-	
+
+
 	/**
 	 * this method will initialize the Course List Page
 	 * A default course is added for new users. 
@@ -99,6 +107,8 @@ public class CourseListController {
 	 * @param event
 	 * @throws IOException
 	 */
+
+	
 	@FXML
 	public void initialize() {
 	    
@@ -115,6 +125,26 @@ public class CourseListController {
 		programYearColumn.setCellValueFactory(new PropertyValueFactory<>("programYear"));
 		// program semester column
 		programSemesterColumn.setCellValueFactory(new PropertyValueFactory<>("semester"));
+	}
+
+	@FXML
+	public void removeCourseByName(ActionEvent event) throws IOException {
+		TableListCourseInfo courseList = Main.getCourseList();
+		
+		// Get the selected course from the table view
+		CourseInfo selectedCourse = courseTable.getSelectionModel().getSelectedItem();
+		
+		if (selectedCourse != null) {
+			courseList.removeCourse(selectedCourse);
+			courseTable.getItems().remove(selectedCourse);
+		} else {
+			// Error messsage in case you can't remove course
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText(null);
+			alert.setContentText("Please select a course to remove.");
+			alert.showAndWait();
+		}
 	}
 	
 	/* Notes for future implementation: We would also include additional code that would check for existing directories

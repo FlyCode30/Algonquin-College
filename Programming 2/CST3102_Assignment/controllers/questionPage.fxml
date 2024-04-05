@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -51,11 +52,6 @@
             <Insets left="540.0" />
          </GridPane.margin>
       </ComboBox>
-      <TextField fx:id="question" onAction="#addQuestion" prefHeight="226.0" prefWidth="1500.0" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets left="30.0" right="30.0" />
-         </GridPane.margin>
-      </TextField>
       <TextField fx:id="optionA" maxHeight="-Infinity" prefHeight="70.0" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="120.0" right="30.0" />
@@ -129,5 +125,10 @@
             <Insets left="400.0" />
          </GridPane.margin>
       </Label>
+      <TextArea fx:id="question" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </GridPane.margin>
+      </TextArea>
    </children>
 </GridPane>
