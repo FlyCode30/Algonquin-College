@@ -1,36 +1,24 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.CourseInfo;
-import models.MxQuestion;
 import models.MyQuestionsCollection;
 import models.Questions;
 import models.Reader;
-import models.TableListCourseInfo;
-
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
@@ -39,36 +27,54 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class QuestionListController {
 	
 	/**
-	 * This is the instnace of the MyQuestionsCollection this program uses. The collection is an observable list.
-	 * This was chosen to the flexibility of the observable list and the ability to update the list in real time.
+	 * This displays the list of questions in the users questions observable list.
+	 * This was chosen due to the flexibility of the observable list and the ability to update the list in real time.
 	 * The priority parameters needed for this collection was frequent insertions and deletions. Order was not a priority 
 	 * as the course info is part of the object and can be used to identify the type of question.  
 	 */
 	private MyQuestionsCollection myQuestions;
+	/** The table view for the questions */
 	@FXML
 	private TableView<Questions> questionList;
+	
+	// Columns for the table view
+	
+	/** Column for the course name */
 	@FXML
 	TableColumn<Questions, String> courseColumn = new TableColumn<>("Course");
+	/** Column for the type of question */
 	@FXML
 	TableColumn<Questions, String> typeColumn = new TableColumn<>("Type");
+	/** Column for the question */
 	@FXML
 	TableColumn<Questions, String> questionColumn = new TableColumn<>("Question");
+	/** The scene for the questionList.fxml file */
 	@FXML
 	private Scene scene;
+	/** Button to view all questions */
 	@FXML
-	private Button allQuestions;
+	private Button viewQuestions;
+	/** Button to view all courses */
 	@FXML
 	private Button viewCourses;
+	/** Button to add a question to question list*/
 	@FXML
 	private Button addQuestion;
+	/** Button to remove a question */
 	@FXML
 	private Button removeQuestion;
+	/** Button to add a course. */
 	@FXML
 	private Button addCourse;
+	/** Button to remove course. Inactive on this page. NOTE** Will be erased pending redesign of GUI */
 	@FXML
-	private Button refresh;
+	private Button removeCourse;
+	/** Button to write all questions to a file. Button is functional, but may be taken out in next iteration of GUI. */
+	@FXML
+	private Button writeToFile;
 	
-
+	
+	/** This method will load the questionList.fxml */
 	public void start(Stage homeStage) {
 	    try {
 			Main.loader("questionList.fxml");
@@ -78,29 +84,40 @@ public class QuestionListController {
 		}
 	}
 	
-	/**
-	 * This method will load the page for adding a course.
-	 */
+	/** Loads the page for viewing the course list. */
+	@FXML
+	public void viewCourses(ActionEvent event) throws IOException {
+		Main.loader("courseList.fxml");
+	}
+	
+	/** Loads the page for adding a course. */
 	@FXML
 	public void addCourse(ActionEvent event) throws IOException {
 		Main.loader("addCourse.fxml");
 	}
 	
 	/**
-	 * This method will load the page for adding a question. It give the user 2 options: write their own question or upload a file.
+	 * Calls the method for loading the page that that adds a question. It give the user 2 options: write their own question or upload a file.
 	 * Currently, upload file works, but it will upload any question as a multiple choice question and make the entire the question
 	 * the body of the question. 
 	 */
 	
 	/*
 	 * Notes for further development: Change the upload feature so that it correctly inputs the file as a question object, with the 
-	 * options and answers going into the appropriate fields.  
-	 */
+	 * options and answers going into the appropriate fields. Most likely implementing serialization and deserialization. 
+     */
 	@FXML
 	private void addQuestion(ActionEvent event) throws IOException {
 		Main.addQuestion("questionPage.fxml");
 	}
 	
+	/**
+	 * Removes a question from the question list. User selects a question from the list and clicks the remove button.
+	 * Error message will display if no question is selected.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	private void removeQuestion(ActionEvent event) throws IOException {
 		MyQuestionsCollection courseList = Main.getMyQuestions();
@@ -121,13 +138,11 @@ public class QuestionListController {
 		}
 	}
 	
-	/**
-	 * This method will load the courseList.fxml
+	
+	/** Writes all questions to a text file. The file is saved in the ProAssQuestions folder. The file name is MyQuestions_ followed by a timestamp. 
+	 * NOTES FOR FUTURE: Will adjust so that a user can select the questions they want to write to a file, select the directory they want to save it to,
+	 * and name the file.
 	 */
-	@FXML
-	public void viewCourses(ActionEvent event) throws IOException {
-		Main.loader("courseList.fxml");
-	}
 	
 	public void writeAllToFile() {
 		
@@ -156,8 +171,8 @@ public class QuestionListController {
 	    new Thread(task).start();
 	}
 	
-	/** Initialize the list of questions and courses. This is in case the user visits this page before the courseList page, 
-	 * the courses are still added.
+	/** Initialize the list of questions and courses. This is done so that if the user visits this page before the courseList page, 
+	 * the course list is still initialized.
 	 */
 	@FXML
 	public void initialize() {

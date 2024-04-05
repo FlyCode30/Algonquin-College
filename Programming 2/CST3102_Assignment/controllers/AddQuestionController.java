@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import models.CourseInfo;
 import models.FillQuestion;
 import models.MxQuestion;
 import models.Questions;
@@ -74,27 +72,19 @@ public class AddQuestionController {
     private CheckBox answerD;
     
 	
-	/**
-	 * Loads the Question List Page.
-	 * 
-	 * @param stage
-	 * @throws Exception
-	 */
+	/** Loads the Question List Page. */
 	public void start (Stage stage) throws Exception{
         Main.loader("questionPage.fxml");
 	}
 	
-	/**
-	 * This method will return to the question list page
-	 * 
-	 * @param event
-	 */
+	/** Returns to the question list page */
+
 	public void returnToQuestionList(ActionEvent event) {
 		Main.loader("questionList.fxml");
 	}
 	
 	/**
-	 * This method will add a question to the myQuestions collection. 
+	 * This method will add a question to the questions list. 
 	 * It will also write the question to a file using the writeToFile method, and then return the user to the 
 	 * question list page.
 	 * 
@@ -102,11 +92,10 @@ public class AddQuestionController {
 	 * @throws IOException
 	 */
 	
-	/* Notes for future improvements: A choice dialog box or separate button could be included so that a user could 
-	 * add a new question and stay on the same page, or add a new question and return to the question list page.
-	 * 
-	 * Also, there are no try-catch blocks for the file writing method. This would be added to the writeToFile method
-	 * to check for fields left blank or other errors. It would prompt the user to enter the missing information. 
+	/* NOTES** There are no try-catch blocks for the file writing method. This would be added to the writeToFile method
+	 * to check for fields left blank or other errors. It would prompt the user to enter the missing information. Currently,
+	 * similar functionality exists by adjusting the interface based on the question type selected, forcing the user to only 
+	 * enter the necessary information for the question type selected. 
 	 */
 	@FXML
 	public void addQuestion(ActionEvent event) throws IOException {
@@ -152,7 +141,7 @@ public class AddQuestionController {
 	 */
 	@FXML
 	public void initialize() {
-		courseList.setItems(getCourseInfo());
+		courseList.setItems(CourseListController.getCourseInfoString());
 		questionType.setItems(FXCollections.observableArrayList("MC", "T/F", "Fill", "Short"));
 		
 		questionType.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -220,26 +209,10 @@ public class AddQuestionController {
 		});
 	}
 	
-	/**
-	 * This method will return the list of programs from the courseList objects.
-	 * @return
-	 */
-	
-	public ObservableList<String> getCourseInfo() {
-		ObservableList<String> courses = FXCollections.observableArrayList();
-		ObservableList<CourseInfo> courseList = Main.getCourseList().getCourseInfo();
-		for (CourseInfo course : courseList) {
-			String courseName = course.getProgramName();
-			if (!courses.contains(courseName)) {
-				courses.add(courseName);
-			}
-		}
-		return courses;
-	}
 
 
 	/**
-	 * This method writes a question to a text file. 
+	 * Writes a question to a text file. 
 	 * It uses the course name to indicate the course the question is associated with, and a timestamp
 	 * to create a unique ID for the file name
 	 * 
@@ -279,6 +252,5 @@ public class AddQuestionController {
 	    new Thread(task).start();
 	}
 	
-
 }
 

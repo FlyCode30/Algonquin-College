@@ -61,8 +61,16 @@ public class AddCourseController implements Initializable {
 			e.printStackTrace();
 		}
 	}
+	
+	/** initializes the scene. Populates program year and semester with pre-made choices */
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		programYear.getItems().addAll(years);
+		semester.getItems().addAll(semesterChoices);
+    }
 
 	/** returns to course list */
+	
 	@FXML
 	public void returnToCourseList(ActionEvent event) throws IOException{
        Main.loader("courseList.fxml");
@@ -108,11 +116,6 @@ public class AddCourseController implements Initializable {
 		}
 	}
 	
-	/** initializes the scene. Populates program year and semester with premade choices */
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		programYear.getItems().addAll(years);
-		semester.getItems().addAll(semesterChoices);
-    }
+
 		
 }

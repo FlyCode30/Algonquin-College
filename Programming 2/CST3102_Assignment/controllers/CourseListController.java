@@ -2,6 +2,8 @@ package controllers;
 
 import java.io.IOException;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,8 +18,7 @@ import models.CourseInfo;
 import models.TableListCourseInfo;
 
 /**
- * This controller class uses the courseList.fxml file to display the list of
- * courses in the courseList
+ * This controller class is primarily meant to display the list of courses in the Course List.
  */
 public class CourseListController {
 
@@ -26,30 +27,40 @@ public class CourseListController {
 	/** Scene for the courseList.fxml file */
 	@FXML
 	private Scene scene;
-	/** Table view for displaying the list of courses */
-	@FXML
-	private Button addQuestion;
-	@FXML
-	private Button removeQuestion;
+	/** Table for displaying the list of courses */
 	@FXML
 	private TableView<CourseInfo> courseTable;
+	/** Button for adding a course */
+	@FXML
+	private Button addCourse;
+	/** BUtton for viewing questions */
+	@FXML
+	private Button viewQuestions;
+	/** Button for adding a question */
+	@FXML
+	private Button addQuestion;
+	/** Button for removingQuestion. NOTE** This button is inactive. Will be adjusted following GUI redesign. */
+	@FXML
+	private Button removeQuestion;
+
+	
 	
 	// Columns for the table view 
 	
-	/** Column for course name */
+	/** Course name column for course list */
 	@FXML
 	private TableColumn<CourseInfo, String> courseNameColumn = new TableColumn<>("Course Name");
-	/** Column for program name */
+	/** Program name column for course list */
 	@FXML
 	private TableColumn<CourseInfo, String> programNameColumn = new TableColumn<>("Program Name");
-	/** Column for program year */
+	/** Program year column for course list */
 	@FXML
 	private TableColumn<CourseInfo, Integer> programYearColumn = new TableColumn<>("Program Year");
-	/** Column for program semester */
+	/** Program semester column for course list */
 	@FXML
 	private TableColumn<CourseInfo, String> programSemesterColumn = new TableColumn<>("Program Semester");
 	
-	/** TableListCourseInfo object used for the list of courses */
+	
 	private TableListCourseInfo courseList;
 	
     /** 
@@ -67,48 +78,13 @@ public class CourseListController {
 	}
 	
 	/**
-	 * Loads the page for adding a question to the Question List.
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	public void addQuestion(ActionEvent event) throws IOException {
-		Main.addQuestion("questionPage.fxml");
-	}
-	
-	/**
-	 * Loads the page for viewing the Question List.
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	public void viewQuestions(ActionEvent event) throws IOException {
-		Main.loader("questionList.fxml");
-	}
-	
-	/**
-	 * Loads the page for adding a course to the Course List.
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	@FXML
-	public void goToAddCoursePage(ActionEvent event) throws IOException {
-		Main.loader("addCourse.fxml");
-	}
-
-
-	/**
-	 * this method will initialize the Course List Page
-	 * A default course is added for new users. 
+	 * Initializes the Course List Page by setting the table properties, populating the course list, and 
+	 * adding a default course for the user in case the course list is empty.
 	 * 
 	 * @param event
 	 * @throws IOException
 	 */
 
-	
 	@FXML
 	public void initialize() {
 	    
@@ -126,7 +102,46 @@ public class CourseListController {
 		// program semester column
 		programSemesterColumn.setCellValueFactory(new PropertyValueFactory<>("semester"));
 	}
+	
+	/**
+	 * Loads the page for adding a question to the Question List.
+	 * 
+	 * @param event clicking addQuestionButton
+	 * @throws IOException
+	 */
+	@FXML
+	public void addQuestion(ActionEvent event) throws IOException {
+		Main.addQuestion("questionPage.fxml");
+	}
+	
+	/**
+	 * Loads the page for viewing the Question List.
+	 * 
+	 * @param event clicking viewQuestions
+	 * @throws IOException
+	 */
+	@FXML
+	public void viewQuestions(ActionEvent event) throws IOException {
+		Main.loader("questionList.fxml");
+	}
+	
+	/**
+	 * Loads the page for adding a course to the Course List.
+	 * 
+	 * @param event clicking addCourse
+	 * @throws IOException
+	 */
+	@FXML
+	public void goToAddCoursePage(ActionEvent event) throws IOException {
+		Main.loader("addCourse.fxml");
+	}
 
+	/**
+	 * Removes a course from the Course List.
+	 * 
+	 * @param event clicking removeCourse Button. 
+	 * @throws IOException
+	 */
 	@FXML
 	public void removeCourseByName(ActionEvent event) throws IOException {
 		TableListCourseInfo courseList = Main.getCourseList();
@@ -147,9 +162,19 @@ public class CourseListController {
 		}
 	}
 	
-	/* Notes for future implementation: We would also include additional code that would check for existing directories
-	 * and load them into the Course List here. We were not able to do that at this time. 
-	 * 
-	 */
+	/** Returns course list as a string */
+	
+	public static ObservableList<String> getCourseInfoString() {
+		ObservableList<String> courses = FXCollections.observableArrayList();
+		ObservableList<CourseInfo> courseList = Main.getCourseList().getCourseInfo();
+		for (CourseInfo course : courseList) {
+			String courseName = course.getProgramName();
+			if (!courses.contains(courseName)) {
+				courses.add(courseName);
+			}
+		}
+		return courses;
+	}
+
 	
 }

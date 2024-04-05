@@ -33,19 +33,25 @@ import models.Questions;
 import models.TableListCourseInfo;
 
 /**
- * This is the main controller class for the our application. 
+ * This is the main controller class for the our application. It launches the program and instantiates the user's course list and question list. 
  */
 
 public class Main extends javafx.application.Application{
 	
+	/** The primary stage for the application. It is static so that it is maintained throughout the life of the program */
 	@FXML
 	private static Stage primaryStage;
+	/** The home scene for the application */
 	@FXML
 	private Scene scene;
+	/** Button for directing the user to Course Page */
 	@FXML
 	private Button coursePage;
+	/** Button for directing the user to Question Page */
 	@FXML
 	private Button questionPage;
+	/** Directs the user to Quiz Page */
+	// This button is not currently inactive. It is a placeholder for future functionality. 
 	@FXML
 	private Button quizPage;
 	/** static course list for */
@@ -71,7 +77,7 @@ public class Main extends javafx.application.Application{
 	}
 	
 	/**
-	 * This method will return the list of course objects. 
+	 * Returns the list of course objects. 
 	 * 
 	 * @return courseList
 	 */
@@ -80,7 +86,7 @@ public class Main extends javafx.application.Application{
 	}
 	
 	/**
-	 * This method will return the list of question objects.
+	 * Returns the list of question objects.
 	 * 
 	 * @return myQuestions
 	 */
@@ -89,17 +95,13 @@ public class Main extends javafx.application.Application{
 	}
 	
 	
-	/*
-	 * This method will take the user to the questionList.fxml page
-	 */
+	/** Directs the user to the Question Page. */
 	@FXML
 	public void goToQuestionPage(ActionEvent event) throws IOException {
 		Main.loader("questionList.fxml");
 	}
 	
-	/*
-	 * This method will take the user to the courseList.fxml page
-	 */
+	/** Directs the user to the Course Page. */
 	public void goToCoursePage(ActionEvent event) throws IOException {
 		Main.loader("courseList.fxml");
 	}
@@ -108,9 +110,7 @@ public class Main extends javafx.application.Application{
         launch(args);
     }
 	
-	/**
-	 * This is a loader method that all other controller classes will use to load their respective fxml files
-	 */
+	/** A loader method that will load the fxml file passed as a parameter. */
 	public static void loader(String fxml) {
 		try {
 			Parent root = FXMLLoader.load(Main.class.getResource(fxml));
@@ -121,6 +121,15 @@ public class Main extends javafx.application.Application{
 		}
 	}
 	
+	/**
+	 * A loader method that will load the fxml file passed as a parameter, 
+	 * as well as pass a question object to the controller class being opened.
+	 * This is used if an event requires both a new scene and a question object 
+	 * to be passed to the controller class (such as the ModifyQuestion screen).
+	 * 
+	 * @param fxml     file to be loaded
+	 * @param question object to be passed to the controller class
+	 */
 	public static void loaderWithQuestion(String fxml, Questions question)	{
 		try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
@@ -137,6 +146,15 @@ public class Main extends javafx.application.Application{
         }
 	}
 	
+	/**
+	 * A loader method that will prompt the user to indicate whether they would like to add a question by writing their own or uploading a file.
+	 * If the user selects "write my own", the program will load the fxml file passed as a parameter.
+	 * If the user wants to upload their own file, it will store the entire file as a string in the body of a multiple choice question, under general courses, 
+	 * regardless of the question type of the original file. NOTES FOR FUTURE: This is a temporary solution meant to test the functionality of the file upload feature.
+	 * Ideally, the program would be able to parse the file and determine the question type, course, etc., and data into the appropriate fields.
+	 * 
+	 * @param fxml   file to be loaded
+	 */
 	public static void addQuestion(String fxml) throws IOException{
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation Dialog");

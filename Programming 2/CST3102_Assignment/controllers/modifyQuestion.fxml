@@ -5,6 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -25,14 +26,6 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="deleteQuestion" alignment="CENTER" mnemonicParsing="false" onAction="#removeQuestion" text="Delete Question" textFill="#ff3300" GridPane.halignment="RIGHT">
-         <GridPane.margin>
-            <Insets right="30.0" />
-         </GridPane.margin>
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
       <Button fx:id="returnToQuestionList" mnemonicParsing="false" onAction="#returnToQuestionList" text="Return to My Questions">
          <font>
             <Font size="18.0" />
@@ -41,16 +34,37 @@
             <Insets left="30.0" />
          </GridPane.margin>
       </Button>
-      <TextField fx:id="courseInfo" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="210.0" GridPane.rowIndex="1">
+      <Button fx:id="saveQuestion" alignment="CENTER" layoutX="1339.0" layoutY="26.0" mnemonicParsing="false" onAction="#saveQuestion" text="Save Question" textFill="#2f971f" GridPane.halignment="RIGHT">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+         <GridPane.margin>
+            <Insets right="225.0" />
+         </GridPane.margin>
+      </Button>
+      <Button fx:id="deleteQuestion" alignment="CENTER" mnemonicParsing="false" onAction="#removeQuestion" text="Delete Question" textFill="#ff3300" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets right="30.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <ComboBox fx:id="courseList" editable="true" layoutX="550.0" layoutY="98.0" prefWidth="210.0" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="150.0" />
          </GridPane.margin>
-      </TextField>
-      <TextField fx:id="questionField" prefHeight="226.0" prefWidth="1500.0" GridPane.rowIndex="2">
+      </ComboBox>
+      <ComboBox fx:id="questionType" editable="true" prefWidth="150.0" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets left="30.0" right="30.0" />
+            <Insets left="540.0" />
          </GridPane.margin>
-      </TextField>
+      </ComboBox>
+      <TextArea fx:id="questionField" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+         </GridPane.margin>
+      </TextArea>
       <TextField fx:id="optionA" maxHeight="-Infinity" prefHeight="70.0" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="120.0" right="30.0" />
@@ -124,18 +138,5 @@
             <Insets left="400.0" />
          </GridPane.margin>
       </Label>
-      <Button fx:id="saveQuestion" alignment="CENTER" layoutX="1339.0" layoutY="26.0" mnemonicParsing="false" text="Save Question" textFill="#2f971f" GridPane.halignment="RIGHT">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-         <GridPane.margin>
-            <Insets right="225.0" />
-         </GridPane.margin>
-      </Button>
-      <ComboBox fx:id="questionType" prefWidth="150.0" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets left="540.0" />
-         </GridPane.margin>
-      </ComboBox>
    </children>
 </GridPane>

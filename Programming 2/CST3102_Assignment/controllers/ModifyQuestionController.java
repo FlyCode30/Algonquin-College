@@ -1,26 +1,23 @@
 package controllers;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.CourseInfo;
 import models.FillQuestion;
 import models.MxQuestion;
-import models.MyQuestionsCollection;
 import models.Questions;
 import models.ShortQuestion;
 import models.TorFQuestion;
@@ -33,23 +30,24 @@ public class ModifyQuestionController {
 	
 	// FXML variables for the questionPage.fxml file
 	
+	/** Returns user to question list */
+	@FXML
+	private Button returnToQuestionList;
 	/** Button to add a question */
 	@FXML
 	private Button saveQuestion;
-	/** Button to return to the question list */
+	/** Button to delete the current question being modified */
 	@FXML
 	private Button deleteQuestion;
-	@FXML
-	private Button returnToQuestionList;
 	/** ComboBox for selecting the course */
 	@FXML
-	private TextField courseInfo;
+	private ComboBox<String> courseList;
 	/** ComboBox for selecting the question type */
 	@FXML
 	private ComboBox<String> questionType;
 	/** Text field for entering the question */
 	@FXML
-	private TextField questionField;
+	private TextArea questionField;
 	/** Text field for entering option A */
 	@FXML
 	private TextField optionA;
@@ -74,33 +72,37 @@ public class ModifyQuestionController {
     /** CheckBox for selecting answer D */
     @FXML
     private CheckBox answerD;
-    
+    /** The current question being modified */
     private Questions currentQuestion;
     
 	
-	/**
-	 * Loads the Question List Page.
-	 * 
-	 * @param stage
-	 * @throws Exception
-	 */
+	/** Loads the Question List Page. */
+	
 	public void start (Stage stage) throws Exception{
         Main.loader("modifyQuestion.fxml");
 	}
 	
+	/** Returns the user to the question list */
+	public void returnToQuestionList(ActionEvent event) {
+		Main.loader("questionList.fxml");
+	}
+	
+	/** Deletes current question being modified */
 	public void removeQuestion(ActionEvent event) throws IOException {
 		Main.getMyQuestions().removeQuestion(currentQuestion);
 		Main.loader("questionList.fxml");
 	}
 	
 	/**
-	 * This method will set the question to be modified
+	 * Sets the interface, program, question type and question text fields to the current question being modified.
+	 * 
+	 * @param The current question being modified
 	 */
 	
 	public void setQuestion(Questions question) {
 		this.currentQuestion = question;
 		if (question instanceof MxQuestion)  {
-			courseInfo.setText(question.getCourseInfo());
+			courseList.setValue(question.getCourseInfo());
 			questionType.setValue("MC");
 			questionField.setText(question.getBody());
 			optionA.setText(((MxQuestion) question).getOptionA());
@@ -112,7 +114,7 @@ public class ModifyQuestionController {
 			answerC.setSelected(((MxQuestion) question).getAnswerC());
 			answerD.setSelected(((MxQuestion) question).getAnswerD());
 		} else if (question instanceof TorFQuestion) {
-            courseInfo.setText(question.getCourseInfo());
+			courseList.setValue(question.getCourseInfo());
             questionType.setValue("T/F");
             questionField.setText(question.getBody());
             optionA.setText("True");
@@ -124,7 +126,7 @@ public class ModifyQuestionController {
             answerC.setDisable(true);
             answerD.setDisable(true);
         } else if (question instanceof FillQuestion) {
-            courseInfo.setText(question.getCourseInfo());
+        	courseList.setValue(question.getCourseInfo());
             questionType.setValue("Fill");
             questionField.setText(question.getBody());
             optionA.setText(((FillQuestion) question).getOptionA());
@@ -136,7 +138,7 @@ public class ModifyQuestionController {
             answerC.setDisable(true);
             answerD.setDisable(true);
         } else if (question instanceof ShortQuestion) {
-            courseInfo.setText(question.getCourseInfo());
+        	courseList.setValue(question.getCourseInfo());
             questionType.setValue("Short");
             questionField.setText(question.getBody());
             optionA.setText(((ShortQuestion) question).getOptionA());
@@ -150,53 +152,71 @@ public class ModifyQuestionController {
         } else if (!(question instanceof Questions)) {
         	questionField.setText(question.getBody());
         }
+	}	
+	
+	/**
+	 * Opens a dialog box that lets the user save their question to a file. If they press cancel, they return to the question list.
+	 * 
+	 * @param this method takes a type of question object as a parameter.
+	 */
+	
+	/* 
+	 * We would save the file in an xml format to allow for easier reading and writing of the question,
+	 * or save the question in a database. Also, currently, if the user hits cancel while in the file chooser, they are returned to the question list.
+	 * We would change this so that they are returned to modify question page. 
+	 */
+	public void saveQuestion(ActionEvent event) {
+		if (questionType.getValue().equals("MC")) {
+			MxQuestion mxQuestion = new MxQuestion(courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText(),
+					answerA.isSelected(), optionB.getText(), answerB.isSelected(), optionC.getText(), answerC.isSelected(), optionD.getText(), answerD.isSelected());
+			writeQuestion(mxQuestion);
+			returnToQuestionList(event);
+		} else if (questionType.getValue().equals("Fill")) {
+			FillQuestion fillQuestion = new FillQuestion(courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText(), optionB.getText(), optionC.getText(), optionD.getText());
+			writeQuestion(fillQuestion);
+			returnToQuestionList(event);
+		} else if (questionType.getValue().equals("T/F")) {
+			TorFQuestion torfQuestion = new TorFQuestion (courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText(), answerA.isSelected(), optionB.getText(), answerB.isSelected());
+			writeQuestion(torfQuestion);
+			returnToQuestionList(event);
+		} else if(questionType.getValue().equals("Short")) {
+            ShortQuestion shortAnswerQuestion = new ShortQuestion(courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText());
+            writeQuestion(shortAnswerQuestion);
+            returnToQuestionList(event);
+        } else if (questionType.getValue() == null) {
+        	returnToQuestionList(event);
+        }
 	}
-			
-		
-	/**
-	 * This method will return to the question list page
-	 * 
-	 * @param event
-	 */
-	public void returnToQuestionList(ActionEvent event) {
-		Main.loader("questionList.fxml");
+	
+	public void writeQuestion(Questions questions) {
+	
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save File");
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		File file = fileChooser.showSaveDialog(null);
+		if (file != null) {
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file + ".txt"))) {
+				writer.write(questions.toString());
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+			Main.getMyQuestions().addQuestion(questions);	
+		}  
 	}
-	
-	/**
-	 * This method will add a question to the myQuestions collection. 
-	 * It will also write the question to a file using the writeToFile method, and then return the user to the 
-	 * question list page.
-	 * 
-	 * @param event
-	 * @throws IOException
-	 */
-	
-	/* Notes for future improvements: A choice dialog box or separate button could be included so that a user could 
-	 * add a new question and stay on the same page, or add a new question and return to the question list page.
-	 * 
-	 * Also, there are no try-catch blocks for the file writing method. This would be added to the writeToFile method
-	 * to check for fields left blank or other errors. It would prompt the user to enter the missing information. 
-	 */
-//	@FXML
-//	public void addQuestion(ActionEvent event) throws IOException {
-//		// if user selected multiple choice question type then add a multiple choice question to the myQuestions object
-//		if (
-//	}
-	
-	
-	/**
-	 * Initializes the Add Question Page by setting the items for the courseList and questionType ComboBoxes.
-	 * Also initializes the settings for the interface based on the question type selected.
-	 */
 	
 	@SuppressWarnings("unlikely-arg-type")
+	
+	/** Initializes the interface settings based on the question type of current questions. */
+	
 	/*
 	 * Notes for future improvements: Currently, this method adjusts the interface by adjusting each individual element.
 	 * Future improvements would put this into a css file and the method would call a style sheet to adjust the interface.
+	 * Also, this method makes it so that the user can't change the question type of the question. We would consider 
+	 * removing this restriction in future iterations.
 	 */
 	@FXML
 	public void initialize() {
-//		courseList.setItems(getCourseInfo());
+		courseList.setItems(CourseListController.getCourseInfoString());
 		questionType.setItems(FXCollections.observableArrayList("MC", "T/F", "Fill", "Short", "Other"));
 		
 //		
@@ -264,64 +284,11 @@ public class ModifyQuestionController {
 			}
 	}
 	
-	/**
-	 * This method will return the list of programs from the courseList objects.
-	 * @return
-	 */
-	
-//	public ObservableList<String> getCourseInfo() {
-//		ObservableList<String> courses = FXCollections.observableArrayList();
-//		ObservableList<CourseInfo> courseList = Main.getCourseList().getCourseInfo();
-//		for (CourseInfo course : courseList) {
-//			String courseName = course.getProgramName();
-//			if (!courses.contains(courseName)) {
-//				courses.add(courseName);
-//			}
-//		}
-//		return courses;
-//	}
 
 
-	/**
-	 * This method writes a question to a text file. 
-	 * It uses the course name to indicate the course the question is associated with, and a timestamp
-	 * to create a unique ID for the file name
-	 * 
-	 * @param this method takes a type of question object as a parameter.
-	 */
-	
-	/* 
-	 * Notes for future improvements: We would find a way to change the unique ID to a more user-friendly format, like 
-	 * Question1, Question2, etc. Or, we would use a directory chooser to allow the user to select the location to save
-	 * and name the file themselves. 
-	 * 
-	 * Also, we would save the file in an xml format to allow for easier reading and writing of the question,
-	 * or save the question in a database. 
-	 */
-//	public void writeToFile(Questions questions) {
-//		
-//		LocalDateTime now = LocalDateTime.now();
-//	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-//	    String timestamp = now.format(formatter);
-//	
-//		String course = questions.getCourseInfo();
-//		
-//	    String fileName = course + "_Q-" +timestamp + ".txt";
-//	    String filePath = "E:\\My ToolBox\\7 Projects\\Learning\\Resources & Notes\\Algonquin B.Tech\\AC B.Tech 2023\\Semester 2\\Programming\\Assignments\\AssignmentQuestions\\" + fileName;
-//		    
-//	    Task<Void> task = new Task<Void>() {
-//	        @Override
-//	        protected Void call() throws Exception {
-//	            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-//	                writer.write(questions.toString());
-//	            } catch (IOException e) {
-//	                e.printStackTrace();
-//	            }
-//	            return null;
-//	        }
-//	    };
-//	    new Thread(task).start();
-//	}
-	
 }
+	  
+
+	
+
 
