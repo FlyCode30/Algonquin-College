@@ -1,15 +1,37 @@
 package models;
 
+/** 
+ * this class is used to create FillQuestion objects which are a type of question. "Answers" in this this class are actually options for 
+ * other questions. Since Answer A,B,C, and D are Boolean values in the other question types, and all answers would true in a fill the blank question,
+ * options are used instead.
+ * 
+ * NOTES: The question type should be hard coded here rather than in the controller classes as it is a property of the question object.
+ * Will consider adjusting this for future iterations.
+ */
 public class FillQuestion extends Questions{
 
-	
+	/** the answer for option A */
 	protected String optionA;
+	/** the answer for option B */
 	protected String optionB;
+	/** the answer for option C */
 	protected String optionC;
+	/** the answer for option D */
 	protected String optionD;
 	
 	
-	// this is the constructor for the FillQuestions class. it consists of answers A, B, C, and D but no options
+	/**
+	 * Contstructor for a fill in the blank question
+	 * 
+	 * @param courseInfo
+	 * @param type
+	 * @param body
+	 * @param optionA
+	 * @param optionB
+	 * @param optionC
+	 * @param optionD
+	 */
+
 	public FillQuestion(String courseInfo, String type, String body, String optionA, String optionB, String optionC,
 			String optionD) {
 		super(courseInfo, type, body);
@@ -19,47 +41,47 @@ public class FillQuestion extends Questions{
 		this.optionD = optionD;
 	}
 
-	// this method is used to get option A
+	/** this method is used to get option A */
 	public String getOptionA() {
 		return optionA;
 	}
 	
-	// this method is used to set option A
+	/** Sets the answer for option A */
 	public void setOptionA(String optionA) {
 		this.optionA = optionA;
 	}
 	
-	// this method is used to get option B
+	/** Gets the answer for option B */
 	public String getOptionB() {
 		return optionB;
 	}
 	
-	// this method is used to set option B
+	/** Sets the answer for option B */
 	public void setOptionB(String optionB) {
 		this.optionB = optionB;
 	}
 	
-	// this method is used to get option C
+	/** this method is used to get option C */
 	public String getOptionC() {
 		return optionC;
 	}
 	
-	// this method is used to set option C
+	/** Sets the answer for option C */
 	public void setOptionC(String optionC) {
 		this.optionC = optionC;
 	}
 	
-	// this method is used to get option D
+	/** Get the answer for option D */
 	public String getOptionD() {
 		return optionD;
 	}
 	
-	// this method is used to set option D
+	/** Sets the answer for option D */
 	public void setOptionD(String optionD) {
 		this.optionD = optionD;
 	}
 	
-	// this method is used to return a string representation of the object
+	/** toString method for a fill question */
 	public String toString() {
 		return super.toString() + "   " + getOptionA() + "\n   " + getOptionB() + "\n   " + getOptionC() + "\n   " + getOptionD();
 	}

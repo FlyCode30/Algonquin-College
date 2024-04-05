@@ -1,5 +1,17 @@
 package models;
 
+/**
+ * This class is used to test the application. It creates a new
+ * MyQuestionsCollection object, a new CourseInfo object, a new FillQuestion
+ * object, and a new ShortQuestion object. It adds the fillQuestion and
+ * shortQuestion to the myQuestions object. It prints the questions in the
+ * myQuestions object.
+ * 
+ * NOTES FOR FUTURE ITERATIONS: This class will need to be updated for future
+ * iterations.
+ *
+ */
+
 public class TestAppTester {
 
 	public static void main(String[] args)	{

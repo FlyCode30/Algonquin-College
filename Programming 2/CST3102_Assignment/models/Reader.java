@@ -7,9 +7,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+/**
+ * This is a static class used to read files from a folder.
+ */
+
 public class Reader {
     
-    // create a method that will return a string files read from the folder
+	/**
+	 * Reads a folder path, creates a StringBuilder object, and appends the contents of the files to the StringBuilder.
+	 * 
+	 * @param folderPath the path to the folder
+	 * @param maxFiles   the maximum number of files to read
+	 * @return the contents of the files as a string
+	 */
 	public static String readStringFiles(String folderPath, int maxFiles) {
 		StringBuilder sb = new StringBuilder();
 		try (Stream<Path> paths = Files.walk(Paths.get(folderPath), 1)) { // Only look in the specified folder

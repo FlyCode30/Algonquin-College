@@ -4,10 +4,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 
-// this class will be used to create a table of course information in the courseList.fxml file
+/**
+ * This class is used to create a list of courses.
+ * 
+ */
 
 public class TableListCourseInfo {
 
+	/** Observable list of courses */
 	private ObservableList<CourseInfo> courseList;
 
 	/**
@@ -28,18 +32,8 @@ public class TableListCourseInfo {
 		return courseList;
 	}
 	
-	public boolean removeCourseByName(String courseName) {
-	    for (CourseInfo course : courseList) {
-	        if (course.getCourseName().equals(courseName)) {
-	            courseList.remove(course);
-	            return true; // Course removed successfully
-	        }
-	    }
-	    return false; // Course not found
-	}
-	
 	/**
-	 * This method will add a default course to the courseList if courseList is empty
+	 * Sets a default course in the course list if the list is empty.
 	 * 
 	 * @param courseInfo
 	 */
@@ -49,42 +43,52 @@ public class TableListCourseInfo {
 		}
 	}
 	
+	/** Sets the course list */
 	public void setCourseList(TableListCourseInfo courseList) {
 		this.courseList = courseList.getCourseInfo();
 	}
 	
+	/** Adds a course to the course list */
 	public void addCourse(CourseInfo courseInfo) {
 		courseList.add(courseInfo);
 	}
 	
+	/** Removes a course from the course list by identifying the name of the course object.*/
 	public void removeCourse(CourseInfo courseInfo) {
 		courseList.remove(courseInfo);
 	}
 	
+	/** Clears the course list */
 	public void clearList() {
 		courseList.clear();
 	}
 	
+	/** Gets the size of the course list */
 	public int size() {
 		return courseList.size();
 	}
 	
+	/** Gets a course from the course list */
 	public CourseInfo getCourse(int index) {
 		return courseList.get(index);
 	}
 	
+	/** Sets a course in the course list */
 	public void setCourse(int index, CourseInfo courseInfo) {
 		courseList.set(index, courseInfo);
 	}
 	
+	/** Checks if the course list contains a course */
 	public boolean contains(CourseInfo courseInfo) {
 		return courseList.contains(courseInfo);
 	}
 	
+	/** Returns the course list as a string */
 	public String toString() {
 		return courseList.toString();
 	}
 	
+	/** Removes a course from the course list by index */
 	public void remove(int index) {
 		courseList.remove(index);
 	}
