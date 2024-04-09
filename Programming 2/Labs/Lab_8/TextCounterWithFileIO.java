@@ -162,7 +162,6 @@ public class TextCounterWithFileIO extends Application {
         lineCountLabel.setText("  Number of lines:  " + lineCt);
         wordCountLabel.setText("  Number of words:  " + wordCt);
         charCountLabel.setText("  Number of chars:  " + charCt);
-        dirLabel.setText("  Current file:  " + "N/A");
 
     }  // end processInput()
     
@@ -190,9 +189,6 @@ public class TextCounterWithFileIO extends Application {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-		
-        
          }
     }
 
