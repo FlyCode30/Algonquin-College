@@ -49,6 +49,7 @@ public class AddCourseController implements Initializable {
 	/** Button to add course and return to courseList.fxml. */
 	@FXML
 	private Button addCourseButton;
+
 	
     /* 
      * this method will load the addCourse.fxml
@@ -75,6 +76,8 @@ public class AddCourseController implements Initializable {
 	public void returnToCourseList(ActionEvent event) throws IOException{
        Main.loader("courseList.fxml");
 	}
+	
+
 	
 	/**
 	 * This method will add a course to the courseList.fxml based on the inputs in text fields. 

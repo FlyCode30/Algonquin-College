@@ -71,7 +71,7 @@ public class QuestionListController {
 	private Button removeCourse;
 	/** Button to write all questions to a file. Button is functional, but may be taken out in next iteration of GUI. */
 	@FXML
-	private Button writeToFile;
+	private Button startQuiz;
 	
 	
 	/** This method will load the questionList.fxml */
@@ -94,6 +94,11 @@ public class QuestionListController {
 	@FXML
 	public void addCourse(ActionEvent event) throws IOException {
 		Main.loader("addCourse.fxml");
+	}
+	
+	@FXML
+	public void startQuiz(ActionEvent event) throws IOException {
+		Main.loader("createQuiz.fxml");
 	}
 	
 	/**
@@ -139,37 +144,7 @@ public class QuestionListController {
 	}
 	
 	
-	/** Writes all questions to a text file. The file is saved in the ProAssQuestions folder. The file name is MyQuestions_ followed by a timestamp. 
-	 * NOTES FOR FUTURE: Will adjust so that a user can select the questions they want to write to a file, select the directory they want to save it to,
-	 * and name the file.
-	 */
-	
-	public void writeAllToFile() {
-		
-		LocalDateTime now = LocalDateTime.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	    String timestamp = now.format(formatter);
-	
-		String folderPath = "C:\\Users\\mikes\\Documents\\ProAssQuestions";
-		String allMyQuestions = Reader.readStringFiles(folderPath, 5000);
-		
-		
-	    String fileName = "MyQuestions_" + timestamp + ".txt";
-	    String filePath = "C:\\Users\\mikes\\Documents\\ProAssQuestions\\" + fileName;
-		    
-	    Task<Void> task = new Task<Void>() {
-	        @Override
-	        protected Void call() throws Exception {
-	            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-	                writer.write(allMyQuestions);
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	            return null;
-	        }
-	    };
-	    new Thread(task).start();
-	}
+
 	
 	/** Initialize the list of questions and courses. This is done so that if the user visits this page before the courseList page, 
 	 * the course list is still initialized.

@@ -59,7 +59,8 @@ public class CourseListController {
 	/** Program semester column for course list */
 	@FXML
 	private TableColumn<CourseInfo, String> programSemesterColumn = new TableColumn<>("Program Semester");
-	
+	@FXML
+	private Button startQuiz;
 	
 	private TableListCourseInfo courseList;
 	
@@ -136,6 +137,10 @@ public class CourseListController {
 		Main.loader("addCourse.fxml");
 	}
 
+	@FXML
+	public void startQuiz(ActionEvent event) throws IOException {
+		Main.loader("createQuiz.fxml");
+	}
 	/**
 	 * Removes a course from the Course List.
 	 * 

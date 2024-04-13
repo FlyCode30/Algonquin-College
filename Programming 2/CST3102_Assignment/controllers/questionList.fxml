@@ -22,7 +22,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Button fx:id="writeToFile" layoutX="678.0" layoutY="180.0" mnemonicParsing="false" onAction="#writeAllToFile" text="Copy Questions" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Button fx:id="startQuiz" layoutX="678.0" layoutY="180.0" mnemonicParsing="false" onAction="#startQuiz" text="Start Quiz" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <font>
             <Font size="14.0" />
          </font>

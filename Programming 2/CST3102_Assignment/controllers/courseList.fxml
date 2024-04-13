@@ -70,7 +70,7 @@
             <Insets right="30.0" />
          </GridPane.margin>
       </Button>
-      <Button id="removeCourse" mnemonicParsing="false" text="Make a Quiz" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Button id="removeCourse" fx:id="startQuiz" mnemonicParsing="false" onAction="#startQuiz" text="Make a Quiz" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <font>
             <Font size="16.0" />
          </font>
