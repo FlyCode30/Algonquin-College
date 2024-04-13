@@ -1,20 +1,16 @@
 package controllers;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.FillQuestion;
 import models.MxQuestion;
@@ -26,7 +22,7 @@ import models.TorFQuestion;
  * This controller class allows users to add questions to the Question List.
  */
 
-public class ModifyQuestionController {
+public class ModifyQuestionController implements ValidateUtility{
 	
 	// FXML variables for the questionPage.fxml file
 	
@@ -62,16 +58,7 @@ public class ModifyQuestionController {
 	private TextField optionD;
 	/** CheckBox for selecting answer A */
 	@FXML
-	private CheckBox answerA;
-	/** CheckBox for selecting answer B */
-    @FXML
-    private CheckBox answerB;
-    /** CheckBox for selecting answer C */
-    @FXML
-    private CheckBox answerC;
-    /** CheckBox for selecting answer D */
-    @FXML
-    private CheckBox answerD;
+	private RadioButton answerA, answerB, answerC, answerD;
     /** The current question being modified */
     private Questions currentQuestion;
     
@@ -154,54 +141,13 @@ public class ModifyQuestionController {
         }
 	}	
 	
-	/**
-	 * Opens a dialog box that lets the user save their question to a file. If they press cancel, they return to the question list.
-	 * 
-	 * @param this method takes a type of question object as a parameter.
-	 */
-	
-	/* 
-	 * We would save the file in an xml format to allow for easier reading and writing of the question,
-	 * or save the question in a database. Also, currently, if the user hits cancel while in the file chooser, they are returned to the question list.
-	 * We would change this so that they are returned to modify question page. 
-	 */
-	public void saveQuestion(ActionEvent event) {
-		if (questionType.getValue().equals("MC")) {
-			MxQuestion mxQuestion = new MxQuestion(courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText(),
-					answerA.isSelected(), optionB.getText(), answerB.isSelected(), optionC.getText(), answerC.isSelected(), optionD.getText(), answerD.isSelected());
-			writeQuestion(mxQuestion);
-			returnToQuestionList(event);
-		} else if (questionType.getValue().equals("Fill")) {
-			FillQuestion fillQuestion = new FillQuestion(courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText(), optionB.getText(), optionC.getText(), optionD.getText());
-			writeQuestion(fillQuestion);
-			returnToQuestionList(event);
-		} else if (questionType.getValue().equals("T/F")) {
-			TorFQuestion torfQuestion = new TorFQuestion (courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText(), answerA.isSelected(), optionB.getText(), answerB.isSelected());
-			writeQuestion(torfQuestion);
-			returnToQuestionList(event);
-		} else if(questionType.getValue().equals("Short")) {
-            ShortQuestion shortAnswerQuestion = new ShortQuestion(courseList.getValue(), questionType.getValue(), questionField.getText(), optionA.getText());
-            writeQuestion(shortAnswerQuestion);
-            returnToQuestionList(event);
-        } else if (questionType.getValue() == null) {
-        	returnToQuestionList(event);
-        }
-	}
-	
-	public void writeQuestion(Questions questions) {
-	
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Save File");
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-		File file = fileChooser.showSaveDialog(null);
-		if (file != null) {
-			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file + ".txt"))) {
-				writer.write(questions.toString());
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
-			Main.getMyQuestions().addQuestion(questions);	
-		}  
+	@FXML
+	public void addQuestionButton(ActionEvent event) throws IOException {
+		if (!ValidateUtility.validateQuestionInput(courseList, questionType, questionField)) {
+			ValidateUtility.confirmAction();
+		} else {
+			ValidateUtility.addQuestion(courseList, questionType, questionField, optionA, answerA, optionB, answerB, optionC, answerC, optionD, answerD);
+		}
 	}
 	
 	@SuppressWarnings("unlikely-arg-type")

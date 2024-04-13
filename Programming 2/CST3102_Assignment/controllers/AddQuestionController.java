@@ -1,33 +1,23 @@
 package controllers;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import models.FillQuestion;
-import models.MxQuestion;
-import models.Questions;
-import models.ShortQuestion;
-import models.TorFQuestion;
 
 /**
  * This controller class allows users to add questions to the Question List.
  */
 
-public class AddQuestionController {
+public class AddQuestionController implements ValidateUtility{
 	
 	// FXML variables for the questionPage.fxml file
 	
@@ -45,7 +35,7 @@ public class AddQuestionController {
 	private ComboBox<String> questionType;
 	/** Text field for entering the question */
 	@FXML
-	private TextArea question;
+	private TextArea questionField;
 	/** Text field for entering option A */
 	@FXML
 	private TextField optionA;
@@ -58,18 +48,11 @@ public class AddQuestionController {
 	/** Text field for entering option D */	
 	@FXML
 	private TextField optionD;
-	/** CheckBox for selecting answer A */
+	/** RadioButton for selecting answer */
 	@FXML
-	private CheckBox answerA;
-	/** CheckBox for selecting answer B */
-    @FXML
-    private CheckBox answerB;
-    /** CheckBox for selecting answer C */
-    @FXML
-    private CheckBox answerC;
-    /** CheckBox for selecting answer D */
-    @FXML
-    private CheckBox answerD;
+	private RadioButton answerA, answerB, answerC, answerD;
+
+
     
 	
 	/** Loads the Question List Page. */
@@ -98,35 +81,12 @@ public class AddQuestionController {
 	 * enter the necessary information for the question type selected. 
 	 */
 	@FXML
-	public void addQuestion(ActionEvent event) throws IOException {
-		// if user selected multiple choice question type then add a multiple choice question to the myQuestions object
-		if (questionType.getValue().equals("MC")) {
-			MxQuestion mxQuestion = new MxQuestion(courseList.getValue(), questionType.getValue(), question.getText(), optionA.getText(),
-					answerA.isSelected(), optionB.getText(), answerB.isSelected(), optionC.getText(), answerC.isSelected(), optionD.getText(), answerD.isSelected());
-			// add the question to the myQuestions object
-			Main.getMyQuestions().addQuestion(mxQuestion);
-			// write the question to a file
-			writeToFile(mxQuestion);
-			// return to the question list page
-			returnToQuestionList(event);
-		} else if (questionType.getValue().equals("Fill")) {
-			FillQuestion fillQuestion = new FillQuestion(courseList.getValue(), questionType.getValue(), question.getText(), optionA.getText(), optionB.getText(), optionC.getText(), optionD.getText());
-			Main.getMyQuestions().addQuestion(fillQuestion);
-			writeToFile(fillQuestion);
-			returnToQuestionList(event);
-		} else if (questionType.getValue().equals("T/F")) {
-			TorFQuestion torfQuestion = new TorFQuestion (courseList.getValue(), questionType.getValue(), question.getText(), optionA.getText(), answerA.isSelected(), optionB.getText(), answerB.isSelected());
-			Main.getMyQuestions().addQuestion(torfQuestion);
-			writeToFile(torfQuestion);
-			returnToQuestionList(event);
-		} else if(questionType.getValue().equals("Short")) {
-            ShortQuestion shortAnswerQuestion = new ShortQuestion(courseList.getValue(), questionType.getValue(), question.getText(), optionA.getText());
-            Main.getMyQuestions().addQuestion(shortAnswerQuestion);
-            writeToFile(shortAnswerQuestion);
-            returnToQuestionList(event);
-        } else if (questionType.getValue() == null) {
-        	returnToQuestionList(event);
-        }
+	public void addQuestionButton(ActionEvent event) throws IOException {
+		if (!ValidateUtility.validateQuestionInput(courseList, questionType, questionField)) {
+			ValidateUtility.confirmAction();
+		} else {
+			ValidateUtility.addQuestion(courseList, questionType, questionField, optionA, answerA, optionB, answerB, optionC, answerC, optionD, answerD);
+		}
 	}
 	
 	
@@ -149,8 +109,10 @@ public class AddQuestionController {
 			if (newValue.equals("MC")) {
 				optionA.setFont(Font.getDefault());
 				optionA.setEditable(true);
+				optionA.setText(null);
 				answerA.setDisable(false);
 				optionB.setFont(Font.getDefault());
+				optionB.setText(null);
 				optionB.setEditable(true);
 				optionB.setDisable(false);
 				answerB.setDisable(false);
@@ -167,6 +129,7 @@ public class AddQuestionController {
 				optionA.setEditable(false);
 				answerA.setDisable(false);
 				optionB.setFont(Font.font("System", FontWeight.BOLD , 20));
+				optionB.setText(null);
 				optionB.setText("False");
 				optionB.setEditable(false);
 				optionB.setDisable(false);
@@ -179,9 +142,11 @@ public class AddQuestionController {
 				answerD.setDisable(true);
 			} else if (newValue.equals("Fill")) {
 				optionA.setFont(Font.getDefault());
+				optionA.setText(null);
 				optionA.setEditable(true);
 				answerA.setDisable(true);
 				optionB.setFont(Font.getDefault());
+				optionB.setText(null);
 				optionB.setEditable(true);
 				optionB.setDisable(false);
 				answerB.setDisable(true);
@@ -193,9 +158,11 @@ public class AddQuestionController {
 				answerD.setDisable(true);
 			} else if (newValue.equals("Short")) {
 				optionA.setFont(Font.getDefault());
+				optionA.setText(null);
 				optionA.setEditable(true);
 				answerA.setDisable(true);
 				optionB.setFont(Font.getDefault());
+				optionB.setText(null);
 				optionB.setEditable(false);
 				optionB.setDisable(true);
 				answerB.setDisable(true);
@@ -209,48 +176,8 @@ public class AddQuestionController {
 		});
 	}
 	
-
-
-	/**
-	 * Writes a question to a text file. 
-	 * It uses the course name to indicate the course the question is associated with, and a timestamp
-	 * to create a unique ID for the file name
-	 * 
-	 * @param this method takes a type of question object as a parameter.
-	 */
-	
-	/* 
-	 * Notes for future improvements: We would find a way to change the unique ID to a more user-friendly format, like 
-	 * Question1, Question2, etc. Or, we would use a directory chooser to allow the user to select the location to save
-	 * and name the file themselves. 
-	 * 
-	 * Also, we would save the file in an xml format to allow for easier reading and writing of the question,
-	 * or save the question in a database. 
-	 */
-	public void writeToFile(Questions questions) {
 		
-		LocalDateTime now = LocalDateTime.now();
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-	    String timestamp = now.format(formatter);
-	
-		String course = questions.getCourseInfo();
-		
-	    String fileName = course + "_Q-" +timestamp + ".txt";
-	    String filePath = "E:\\My ToolBox\\7 Projects\\Learning\\Resources & Notes\\Algonquin B.Tech\\AC B.Tech 2023\\Semester 2\\Programming\\Assignments\\AssignmentQuestions\\" + fileName;
-		    
-	    Task<Void> task = new Task<Void>() {
-	        @Override
-	        protected Void call() throws Exception {
-	            try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-	                writer.write(questions.toString());
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	            return null;
-	        }
-	    };
-	    new Thread(task).start();
-	}
-	
 }
+	
+
 

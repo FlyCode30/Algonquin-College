@@ -111,7 +111,7 @@ public class CourseListController {
 	 */
 	@FXML
 	public void addQuestion(ActionEvent event) throws IOException {
-		Main.addQuestion("questionPage.fxml");
+		ValidateUtility.addQuestionMethod("questionPage.fxml");
 	}
 	
 	/**

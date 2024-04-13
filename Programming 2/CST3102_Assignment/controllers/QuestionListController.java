@@ -108,7 +108,7 @@ public class QuestionListController {
      */
 	@FXML
 	private void addQuestion(ActionEvent event) throws IOException {
-		Main.addQuestion("questionPage.fxml");
+		ValidateUtility.addQuestionMethod("questionPage.fxml");
 	}
 	
 	/**

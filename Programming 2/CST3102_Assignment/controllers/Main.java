@@ -9,25 +9,14 @@
 
 package controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Optional;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import models.MxQuestion;
 import models.MyQuestionsCollection;
 import models.Questions;
 import models.TableListCourseInfo;
@@ -106,6 +95,18 @@ public class Main extends javafx.application.Application{
 		Main.loader("courseList.fxml");
 	}
 	
+	/**
+	 * Loads a group of questions on startup. 
+	 * 
+	 * NOTES: For future iterations, we would not hard code the directory path. THe directory path would be set by the user when they create a course. 
+	 * But it is done this way for testing purposes at this time. Also, this is setup only to work with multiple choice questions at this time. 
+	 * 
+	 */
+	public void initialize() {
+		String questionFiles = "E:\\My ToolBox\\7 Projects\\Learning\\Resources & Notes\\Algonquin B.Tech\\AC B.Tech 2023\\Semester 2\\Programming\\Assignments\\AssignmentQuestions\\Quiz Questions";
+		LoaderController.loadQuestionsFromFile(questionFiles);
+	}
+	
 	public static void main(String[] args) {
         launch(args);
     }
@@ -146,52 +147,6 @@ public class Main extends javafx.application.Application{
         }
 	}
 	
-	/**
-	 * A loader method that will prompt the user to indicate whether they would like to add a question by writing their own or uploading a file.
-	 * If the user selects "write my own", the program will load the fxml file passed as a parameter.
-	 * If the user wants to upload their own file, it will store the entire file as a string in the body of a multiple choice question, under general courses, 
-	 * regardless of the question type of the original file. NOTES FOR FUTURE: This is a temporary solution meant to test the functionality of the file upload feature.
-	 * Ideally, the program would be able to parse the file and determine the question type, course, etc., and data into the appropriate fields.
-	 * 
-	 * @param fxml   file to be loaded
-	 */
-	public static void addQuestion(String fxml) throws IOException{
-		Alert alert = new Alert(AlertType.CONFIRMATION);
-		alert.setTitle("Confirmation Dialog");
-		alert.setHeaderText("What would you like to do?");
-		alert.setContentText("Are you ok with this?");
-		
-		// create the buttons
-		ButtonType writeQuestion = new ButtonType("Write my own");
-		ButtonType upLoadQuestion = new ButtonType("Upload a file");
-		ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
-		
-		alert.getButtonTypes().setAll(writeQuestion, upLoadQuestion, cancel);
-		
-		// 4 different ways to handle the result
-		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == writeQuestion) {
-		    Main.loader(fxml);
-		} else  if (result.get() == upLoadQuestion) {
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-			File selectedFile = fileChooser.showOpenDialog(null);
-	 
-			StringBuilder textBuilder = new StringBuilder();
-		
-			try {
-				// reads each line from the file and append it to the StringBuilder
-				Files.lines(Paths.get(selectedFile.getAbsolutePath())).forEach(line -> textBuilder.append(line));
-				String text = textBuilder.toString();
-				MxQuestion newQuestion = new MxQuestion("General", "MC", text, null, false, null, false, null, false, null, false);
-				Main.getMyQuestions().addQuestion(newQuestion);
-			}
-			catch (IOException e) {
-	            e.printStackTrace();
-	        }
-			
-			
-		}
-	}
+
 
 }
