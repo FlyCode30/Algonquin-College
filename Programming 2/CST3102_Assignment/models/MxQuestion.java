@@ -154,7 +154,7 @@ public class MxQuestion extends Questions {
 	/** Returns the question as a string */
 	@Override
 	public String toString() {
-		return super.toString() + "   A) " + getOptionA() + "\n" + "   B) " + getOptionB() + "\n" + "   C) " + getOptionC() + "\n" + "   B) " + getOptionD() + "\n";
+		return super.toString() + "   A) " + getOptionA() + "\n" + "   B) " + getOptionB() + "\n" + "   C) " + getOptionC() + "\n" + "   B) " + getOptionD() + "\n" + "Correct Answer: " + getCorrectAnswer();
 	}
 	
 	
